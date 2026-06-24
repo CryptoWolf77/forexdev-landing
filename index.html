@@ -1,0 +1,1968 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="مختبر يحيى لهندسة أتمتة التداول: بوتات تداول، إكسبيرتات، مؤشرات مخصصة، وأدوات متقدمة لمنصات ميتاتريدر وتريدنغ فيو."
+    />
+    <title>مختبر يحيى | هندسة أتمتة التداول</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Tajawal", "Cairo", "Noto Kufi Arabic", "Segoe UI", "Tahoma", "Arial", "sans-serif"],
+            },
+            colors: {
+              frost: "#69dcff",
+              ice: "#a8efff",
+              plasma: "#ff386f",
+              ink: "#050812",
+              midnight: "#071326",
+            },
+            boxShadow: {
+              frost: "0 0 38px rgba(105, 220, 255, .36)",
+              plasma: "0 0 36px rgba(255, 56, 111, .32)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        color-scheme: dark;
+        --frost: #69dcff;
+        --ice: #a8efff;
+        --plasma: #ff386f;
+        --ink: #050812;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        overflow-x: hidden;
+        background:
+          radial-gradient(circle at 14% 8%, rgba(255, 56, 111, 0.16), transparent 26rem),
+          radial-gradient(circle at 82% 10%, rgba(105, 220, 255, 0.2), transparent 31rem),
+          linear-gradient(135deg, #02040b 0%, #071326 48%, #02040b 100%);
+        color: #eefbff;
+        font-family: "Tajawal", "Cairo", "Noto Kufi Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -4;
+        background-image:
+          linear-gradient(rgba(105, 220, 255, 0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(105, 220, 255, 0.05) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.68) 52%, transparent 100%);
+      }
+
+      .noise {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        opacity: 0.2;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.34'/%3E%3C/svg%3E");
+        mix-blend-mode: soft-light;
+      }
+
+      .lab-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: -3;
+        opacity: 0;
+        animation: canvasAwaken 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards, ambientPulse 6s ease-in-out 2s infinite;
+        will-change: opacity, filter;
+      }
+
+      .lab-shell {
+        width: min(1180px, calc(100% - 32px));
+        margin-inline: auto;
+      }
+
+      .glass {
+        border: 1px solid rgba(168, 239, 255, 0.2);
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.035)),
+          rgba(4, 12, 28, 0.72);
+        box-shadow:
+          0 24px 80px rgba(0, 0, 0, 0.34),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(18px);
+      }
+
+      .glow-border {
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      .glow-border::before {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        z-index: -1;
+        border-radius: inherit;
+        background: linear-gradient(115deg, rgba(105, 220, 255, 0.68), transparent 34%, rgba(255, 56, 111, 0.62));
+        opacity: 0.44;
+      }
+
+      .logo-mark {
+        filter:
+          drop-shadow(0 0 18px rgba(105, 220, 255, 0.36))
+          drop-shadow(0 0 26px rgba(255, 56, 111, 0.18));
+      }
+
+      .nav-link {
+        position: relative;
+        color: rgba(238, 251, 255, 0.72);
+        transition: color 220ms ease;
+      }
+
+      .nav-link:hover {
+        color: white;
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: -8px;
+        width: 0;
+        height: 2px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--plasma), var(--frost));
+        box-shadow: 0 0 14px rgba(105, 220, 255, 0.65);
+        transition: width 220ms ease;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .section-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid rgba(105, 220, 255, 0.22);
+        border-radius: 999px;
+        padding: 8px 13px;
+        color: #a8efff;
+        background: rgba(105, 220, 255, 0.07);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .section-kicker::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--plasma);
+        box-shadow: 0 0 15px rgba(255, 56, 111, 0.9);
+      }
+
+      .hero-title {
+        line-height: 1.3;
+        overflow: visible;
+        padding-bottom: 0.75rem;
+        text-wrap: balance;
+        text-shadow:
+          0 0 32px rgba(105, 220, 255, 0.25),
+          0 0 60px rgba(255, 56, 111, 0.12);
+      }
+
+      .headline-word {
+        display: inline-block;
+        opacity: 0;
+        padding-bottom: 0.08em;
+        transform: translate3d(0, 28px, 0) rotateX(38deg);
+        transform-origin: 50% 100%;
+        animation: headlineWordRise 0.82s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation-delay: var(--word-delay, 0ms);
+        will-change: transform, opacity;
+      }
+
+      .headline-word + .headline-word {
+        margin-inline-start: 0.08em;
+      }
+
+      .ice-text {
+        background: linear-gradient(90deg, #ffffff 0%, #a8efff 28%, #2bb9ff 58%, #ff6691 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .cta-primary,
+      .cta-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 54px;
+        border-radius: 16px;
+        padding: 0 24px;
+        font-weight: 800;
+        transition:
+          transform 220ms ease,
+          border-color 220ms ease,
+          box-shadow 220ms ease,
+          background 220ms ease;
+      }
+
+      .cta-primary {
+        color: #03101a;
+        background: linear-gradient(135deg, #a8efff, #69dcff 48%, #ff5b86);
+        box-shadow:
+          0 0 22px rgba(105, 220, 255, 0.44),
+          0 16px 42px rgba(255, 56, 111, 0.2);
+      }
+
+      .cta-secondary {
+        border: 1px solid rgba(168, 239, 255, 0.28);
+        color: #e9fbff;
+        background: rgba(8, 22, 43, 0.54);
+      }
+
+      .cta-primary:hover,
+      .cta-secondary:hover {
+        transform: translateY(-4px);
+      }
+
+      .hero-cascade {
+        opacity: 0;
+        transform: translate3d(0, -26px, 0);
+        animation: heroCascade 0.82s cubic-bezier(0.16, 1, 0.3, 1) var(--hero-delay, 0ms) forwards;
+        will-change: transform, opacity;
+      }
+
+      .hero-cta-focus {
+        transform: translate3d(0, -20px, 0) scale(0.95);
+        animation: heroCtaFocus 0.78s cubic-bezier(0.16, 1, 0.3, 1) var(--hero-delay, 0ms) forwards;
+      }
+
+      .hero-primary-cta {
+        animation: ctaFloat 3.4s ease-in-out 1.35s infinite;
+        will-change: transform;
+      }
+
+      .platform-card {
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform;
+      }
+
+      .platform-card::after {
+        content: "";
+        position: absolute;
+        inset: -1px;
+        border-radius: inherit;
+        opacity: 0;
+        background: linear-gradient(135deg, rgba(105, 220, 255, 0.5), rgba(255, 56, 111, 0.38));
+        filter: blur(18px);
+        transition:
+          opacity 220ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+        transform: scale(0.92);
+        pointer-events: none;
+      }
+
+      .platform-card:hover {
+        border-color: rgba(105, 220, 255, 0.48);
+        box-shadow:
+          0 18px 52px rgba(0, 0, 0, 0.28),
+          0 0 32px rgba(105, 220, 255, 0.18);
+      }
+
+      .platform-card:hover::after {
+        opacity: 0.38;
+        transform: scale(1.12);
+      }
+
+      .automation-row {
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+        animation: engineRowActivate 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards, engineRowPulse 4.2s ease-in-out infinite;
+        animation-delay: var(--engine-delay, 0ms), calc(var(--engine-delay, 0ms) + 1s);
+        will-change: transform, opacity, box-shadow;
+      }
+
+      .automation-row::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        background: linear-gradient(90deg, transparent, rgba(105, 220, 255, 0.14), transparent);
+        transform: translateX(-120%);
+        animation: engineSweep 3.8s ease-in-out infinite;
+        animation-delay: calc(var(--engine-delay, 0ms) + 0.8s);
+        pointer-events: none;
+      }
+
+      .engine-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #7dffb2;
+        text-shadow: 0 0 16px rgba(125, 255, 178, 0.48);
+      }
+
+      .engine-status::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: #7dffb2;
+        box-shadow: 0 0 0 0 rgba(125, 255, 178, 0.45), 0 0 18px rgba(125, 255, 178, 0.7);
+        animation: statusPing 2.8s ease-in-out infinite;
+        animation-delay: var(--engine-delay, 0ms);
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 680ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 680ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity;
+      }
+
+      .reveal.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      #ad-banner .reveal {
+        transform: translate3d(0, 24px, 0) scale(0.98);
+      }
+
+      #ad-banner .reveal.is-visible {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      .youtube-flow > div {
+        animation: subtleFloat 3.8s ease-in-out infinite;
+        will-change: transform;
+      }
+
+      .youtube-flow > div:nth-child(2) {
+        animation-delay: 0.35s;
+      }
+
+      .youtube-flow > div:nth-child(3) {
+        animation-delay: 0.7s;
+      }
+
+      .floaty {
+        animation: floaty 7s ease-in-out infinite;
+      }
+
+      .pulse-glow {
+        animation: pulseGlow 3.8s ease-in-out infinite;
+      }
+
+      .marquee-track {
+        animation: ticker 30s linear infinite;
+      }
+
+      .youtube-flow {
+        position: relative;
+      }
+
+      .youtube-flow::after {
+        content: "";
+        position: absolute;
+        inset-inline: 13%;
+        top: 50%;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(255, 56, 111, 0.95), rgba(105, 220, 255, 0.95));
+        box-shadow: 0 0 24px rgba(105, 220, 255, 0.52);
+        transform: translateY(-50%);
+      }
+
+      .tilt-card {
+        transform-style: preserve-3d;
+        transition:
+          transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 320ms cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform;
+      }
+
+      .tilt-card:hover {
+        border-color: rgba(105, 220, 255, 0.48);
+        transform: scale(1.02);
+        box-shadow:
+          0 30px 90px rgba(0, 0, 0, 0.42),
+          0 0 48px rgba(105, 220, 255, 0.3),
+          0 0 32px rgba(255, 56, 111, 0.14);
+      }
+
+      .portfolio-screen {
+        min-height: 250px;
+        border: 1px solid rgba(168, 239, 255, 0.2);
+        border-radius: 22px;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 18% 18%, rgba(105, 220, 255, 0.18), transparent 16rem),
+          linear-gradient(145deg, rgba(1, 8, 18, 0.95), rgba(8, 22, 43, 0.92));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .ad-image,
+      .work-image {
+        display: block;
+        width: 100%;
+        object-fit: contain;
+        object-position: center;
+        background:
+          linear-gradient(135deg, rgba(105, 220, 255, 0.14), rgba(255, 56, 111, 0.1)),
+          rgba(2, 8, 18, 0.88);
+      }
+
+      .ad-image {
+        aspect-ratio: 3 / 2;
+        border-radius: 24px;
+        box-shadow:
+          0 30px 90px rgba(0, 0, 0, 0.46),
+          0 0 42px rgba(105, 220, 255, 0.24),
+          0 0 34px rgba(255, 56, 111, 0.16);
+      }
+
+      .work-image {
+        aspect-ratio: 16 / 10;
+        height: auto;
+        border-radius: 20px;
+        border: 1px solid rgba(168, 239, 255, 0.18);
+        box-shadow: 0 18px 52px rgba(0, 0, 0, 0.34);
+      }
+
+      .portfolio-trigger {
+        display: block;
+        width: 100%;
+        cursor: zoom-in;
+        border: 0;
+        border-radius: 20px;
+        overflow: hidden;
+        padding: 0;
+        background: transparent;
+        text-align: inherit;
+      }
+
+      .portfolio-trigger:focus-visible {
+        outline: 3px solid rgba(105, 220, 255, 0.86);
+        outline-offset: 5px;
+      }
+
+      .portfolio-trigger .work-image {
+        transition:
+          transform 260ms ease,
+          filter 260ms ease,
+          border-color 260ms ease;
+      }
+
+      .portfolio-trigger:hover .work-image {
+        transform: scale(1.05);
+        filter: saturate(1.12) contrast(1.06);
+        border-color: rgba(105, 220, 255, 0.48);
+      }
+
+      #ad-banner .glow-border::after {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        z-index: -1;
+        border-radius: inherit;
+        background: conic-gradient(from var(--glow-angle, 0deg), rgba(105, 220, 255, 0.55), rgba(255, 56, 111, 0.42), rgba(105, 220, 255, 0.55));
+        filter: blur(22px);
+        opacity: 0.42;
+        animation: bannerGlowSpin 7s linear infinite;
+      }
+
+      .lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 80;
+        display: grid;
+        place-items: center;
+        padding: 22px;
+        background:
+          radial-gradient(circle at 50% 12%, rgba(105, 220, 255, 0.16), transparent 30rem),
+          rgba(1, 4, 12, 0.88);
+        opacity: 0;
+        pointer-events: none;
+        backdrop-filter: blur(18px);
+        transition: opacity 220ms ease;
+      }
+
+      .lightbox.is-open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .lightbox-panel {
+        width: min(1180px, 96vw);
+        max-height: 90vh;
+        border: 1px solid rgba(168, 239, 255, 0.24);
+        border-radius: 26px;
+        background: rgba(4, 12, 28, 0.82);
+        box-shadow:
+          0 34px 120px rgba(0, 0, 0, 0.62),
+          0 0 48px rgba(105, 220, 255, 0.22),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        overflow: hidden;
+      }
+
+      .lightbox-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 14px 16px;
+      }
+
+      .lightbox-title {
+        color: #eefbff;
+        font-weight: 900;
+      }
+
+      .lightbox-close {
+        display: inline-flex;
+        width: 42px;
+        height: 42px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(168, 239, 255, 0.22);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.06);
+        color: #eefbff;
+        font-size: 28px;
+        line-height: 1;
+        transition:
+          transform 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease;
+      }
+
+      .lightbox-close:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 56, 111, 0.55);
+        background: rgba(255, 56, 111, 0.14);
+      }
+
+      .lightbox-image {
+        display: block;
+        width: 100%;
+        max-height: calc(90vh - 78px);
+        object-fit: contain;
+        background: #020812;
+      }
+
+      .chart-grid {
+        background-image:
+          linear-gradient(rgba(168, 239, 255, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(168, 239, 255, 0.08) 1px, transparent 1px);
+        background-size: 34px 34px;
+      }
+
+      .price-card {
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 320ms cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform;
+      }
+
+      .price-card.featured {
+        border-color: rgba(255, 56, 111, 0.48);
+        background:
+          linear-gradient(135deg, rgba(255, 56, 111, 0.12), rgba(105, 220, 255, 0.08)),
+          rgba(5, 13, 29, 0.76);
+      }
+
+      .price-card:hover {
+        transform: translateY(-8px);
+        border-color: rgba(105, 220, 255, 0.58);
+        box-shadow:
+          0 32px 96px rgba(0, 0, 0, 0.44),
+          0 0 52px rgba(105, 220, 255, 0.28);
+      }
+
+      .price-card.featured:hover {
+        border-color: rgba(255, 56, 111, 0.68);
+        box-shadow:
+          0 32px 96px rgba(0, 0, 0, 0.44),
+          0 0 56px rgba(255, 56, 111, 0.28),
+          0 0 42px rgba(105, 220, 255, 0.16);
+      }
+
+      .price-card li {
+        opacity: 0;
+        transform: translate3d(0, 12px, 0);
+        transition:
+          opacity 520ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition-delay: var(--feature-delay, 0ms);
+        will-change: transform, opacity;
+      }
+
+      .price-card.is-visible li,
+      .price-card:hover li {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .check-icon {
+        display: inline-flex;
+        width: 22px;
+        height: 22px;
+        flex: 0 0 22px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        color: #03101a;
+        background: linear-gradient(135deg, #a8efff, #69dcff);
+        box-shadow: 0 0 14px rgba(105, 220, 255, 0.38);
+      }
+
+      .step-line {
+        background: linear-gradient(to bottom, rgba(105, 220, 255, 0.9), rgba(255, 56, 111, 0.9));
+        box-shadow: 0 0 24px rgba(105, 220, 255, 0.42);
+      }
+
+      .input-field {
+        width: 100%;
+        border: 1px solid rgba(168, 239, 255, 0.18);
+        border-radius: 16px;
+        background: rgba(2, 8, 18, 0.62);
+        padding: 15px 17px;
+        color: #effcff;
+        outline: none;
+        transition:
+          border-color 180ms ease,
+          box-shadow 180ms ease,
+          background 180ms ease;
+      }
+
+      .input-field::placeholder {
+        color: rgba(238, 251, 255, 0.42);
+      }
+
+      .input-field:focus {
+        border-color: rgba(105, 220, 255, 0.72);
+        background: rgba(3, 11, 24, 0.82);
+        box-shadow: 0 0 0 4px rgba(105, 220, 255, 0.12);
+      }
+
+      .whatsapp {
+        isolation: isolate;
+        box-shadow:
+          0 0 0 1px rgba(255, 255, 255, 0.14),
+          0 0 30px rgba(37, 211, 102, 0.34);
+      }
+
+      .whatsapp::before {
+        content: "";
+        position: absolute;
+        inset: -7px;
+        z-index: -1;
+        border-radius: inherit;
+        border: 1px solid rgba(37, 211, 102, 0.52);
+        animation: whatsappPulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      }
+
+      .contact-whatsapp {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 52px;
+        width: 100%;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #25d366, #69dcff);
+        color: #03101a;
+        font-weight: 900;
+        box-shadow:
+          0 0 24px rgba(37, 211, 102, 0.26),
+          0 16px 40px rgba(105, 220, 255, 0.14);
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .contact-whatsapp:hover {
+        transform: translateY(-3px);
+        box-shadow:
+          0 0 30px rgba(37, 211, 102, 0.34),
+          0 20px 52px rgba(105, 220, 255, 0.18);
+      }
+
+      .language-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        border: 1px solid rgba(168, 239, 255, 0.22);
+        border-radius: 999px;
+        background: rgba(8, 22, 43, 0.54);
+        padding: 4px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .language-switch button {
+        min-width: 42px;
+        border-radius: 999px;
+        padding: 8px 10px;
+        color: rgba(238, 251, 255, 0.62);
+        font-size: 0.78rem;
+        font-weight: 900;
+        transition:
+          color 180ms ease,
+          background 180ms ease,
+          box-shadow 180ms ease;
+      }
+
+      .language-switch button.is-active {
+        color: #03101a;
+        background: linear-gradient(135deg, #a8efff, #69dcff);
+        box-shadow: 0 0 18px rgba(105, 220, 255, 0.34);
+      }
+
+      @keyframes floaty {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0) rotate(0deg);
+        }
+        50% {
+          transform: translate3d(0, -15px, 0) rotate(1deg);
+        }
+      }
+
+      @keyframes pulseGlow {
+        0%,
+        100% {
+          box-shadow: 0 0 24px rgba(105, 220, 255, 0.28);
+        }
+        50% {
+          box-shadow: 0 0 46px rgba(255, 56, 111, 0.32);
+        }
+      }
+
+      @keyframes ticker {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(50%);
+        }
+      }
+
+      @keyframes heroCascade {
+        from {
+          opacity: 0;
+          transform: translate3d(0, -26px, 0);
+        }
+        to {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      @keyframes heroCtaFocus {
+        from {
+          opacity: 0;
+          transform: translate3d(0, -20px, 0) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+      }
+
+      @keyframes headlineWordRise {
+        from {
+          opacity: 0;
+          transform: translate3d(0, 28px, 0) rotateX(38deg);
+          filter: blur(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translate3d(0, 0, 0) rotateX(0deg);
+          filter: blur(0);
+        }
+      }
+
+      @keyframes ctaFloat {
+        0%,
+        100% {
+          transform: translate3d(0, -3px, 0);
+        }
+        50% {
+          transform: translate3d(0, 3px, 0);
+        }
+      }
+
+      @keyframes engineRowActivate {
+        from {
+          opacity: 0;
+          transform: translate3d(0, 10px, 0);
+        }
+        to {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+      }
+
+      @keyframes engineRowPulse {
+        0%,
+        100% {
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 rgba(105, 220, 255, 0);
+        }
+        50% {
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 20px rgba(105, 220, 255, 0.16);
+        }
+      }
+
+      @keyframes engineSweep {
+        0%,
+        40% {
+          opacity: 0;
+          transform: translateX(-120%);
+        }
+        55% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(120%);
+        }
+      }
+
+      @keyframes statusPing {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(125, 255, 178, 0.45), 0 0 18px rgba(125, 255, 178, 0.7);
+        }
+        55% {
+          box-shadow: 0 0 0 8px rgba(125, 255, 178, 0), 0 0 26px rgba(125, 255, 178, 0.9);
+        }
+      }
+
+      @keyframes canvasAwaken {
+        from {
+          opacity: 0;
+          filter: saturate(0.8) brightness(0.8);
+        }
+        to {
+          opacity: 0.52;
+          filter: saturate(1) brightness(1);
+        }
+      }
+
+      @keyframes ambientPulse {
+        0%,
+        100% {
+          opacity: 0.46;
+          filter: drop-shadow(0 0 0 rgba(105, 220, 255, 0));
+        }
+        50% {
+          opacity: 0.6;
+          filter: drop-shadow(0 0 18px rgba(105, 220, 255, 0.18));
+        }
+      }
+
+      @keyframes bannerGlowSpin {
+        from {
+          transform: rotate(0deg) scale(1.05);
+        }
+        to {
+          transform: rotate(360deg) scale(1.05);
+        }
+      }
+
+      @keyframes whatsappPulse {
+        0% {
+          opacity: 0.55;
+          transform: scale(0.92);
+        }
+        70%,
+        100% {
+          opacity: 0;
+          transform: scale(1.32);
+        }
+      }
+
+      @keyframes subtleFloat {
+        0%,
+        100% {
+          transform: translate3d(0, -4px, 0);
+        }
+        50% {
+          transform: translate3d(0, 4px, 0);
+        }
+      }
+
+      @media (max-width: 767px) {
+        .youtube-flow::after {
+          inset-inline: auto;
+          right: 50%;
+          top: 18%;
+          width: 3px;
+          height: 64%;
+          transform: translateX(50%);
+          background: linear-gradient(to bottom, rgba(255, 56, 111, 0.95), rgba(105, 220, 255, 0.95));
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body class="selection:bg-frost selection:text-ink">
+    <canvas id="labCanvas" class="lab-canvas" aria-hidden="true"></canvas>
+    <div class="noise" aria-hidden="true"></div>
+
+    <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/70 backdrop-blur-2xl">
+      <nav class="lab-shell flex h-20 items-center justify-between gap-4">
+        <a href="#top" class="flex items-center gap-3" aria-label="مختبر يحيى">
+          <img
+            src="assets/yahyaz-lab-logo.png"
+            alt="شعار مختبر يحيى"
+            class="logo-mark h-12 w-auto max-w-[150px] object-contain sm:h-14 sm:max-w-[190px]"
+          />
+        </a>
+        <div class="hidden items-center gap-8 text-sm font-bold lg:flex">
+          <a class="nav-link" href="#youtube">من الفكرة للبوت</a>
+          <a class="nav-link" href="#about">من نكون</a>
+          <a class="nav-link" href="#portfolio">الأعمال</a>
+          <a class="nav-link" href="#pricing">الباقات</a>
+          <a class="nav-link" href="#workflow">الرحلة</a>
+          <a class="nav-link" href="#contact">تواصل</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="language-switch" aria-label="اختيار اللغة">
+            <button class="is-active" type="button" data-lang="ar">AR</button>
+            <button type="button" data-lang="en">EN</button>
+          </div>
+          <a href="#contact" class="cta-secondary hidden min-h-11 px-5 text-sm md:inline-flex">طلب استشارة</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="relative flex min-h-screen items-center overflow-x-hidden pb-20 pt-28">
+        <div class="pointer-events-none absolute left-6 top-28 hidden h-64 w-64 rounded-full border border-frost/15 md:block"></div>
+        <div class="pointer-events-none absolute bottom-20 right-0 h-72 w-72 rounded-full border border-plasma/10 blur-[1px]"></div>
+        <div class="lab-shell grid items-center gap-12 lg:grid-cols-[1.02fr_.98fr]">
+          <div class="reveal">
+            <div class="section-kicker hero-cascade mb-7" style="--hero-delay: 60ms">مختبر هندسة التداول الآلي</div>
+            <h1 class="hero-title hero-cascade max-w-4xl overflow-visible pb-3 text-4xl font-black leading-[1.3] sm:text-5xl lg:text-6xl" style="--hero-delay: 180ms">
+              جسرك لأتمتة التداول.. حوّل استراتيجيتك المخصصة إلى
+              <span class="ice-text">مؤشرات وبوتات حقيقية</span>
+            </h1>
+            <p class="hero-cascade mt-7 max-w-2xl text-lg leading-9 text-white/74 sm:text-xl" style="--hero-delay: 300ms">
+              ابدأ بتطوير مؤشرك الخاص المزود بإشارات صفقات واضحة، وحوّل أي منطق تداول (سواء كان فكرة شخصية أو استراتيجية من اليوتيوب وغيره)
+              إلى بوت تداول خوارزمي متكامل ومؤمن بالكامل لإدارة مخاطرك.
+            </p>
+            <div class="hero-cascade hero-cta-focus mt-9 flex flex-col gap-4 sm:flex-row" style="--hero-delay: 430ms">
+              <a href="#contact" class="cta-primary hero-primary-cta">ابدأ رحلة الأتمتة الآن</a>
+              <a href="#pricing" class="cta-secondary">استكشف خدماتنا</a>
+            </div>
+            <div class="hero-cascade mt-10 grid max-w-2xl grid-cols-3 gap-3 text-center" style="--hero-delay: 560ms">
+              <div class="platform-card glass rounded-2xl p-4">
+                <div class="text-2xl font-black text-ice">MT4</div>
+                <div class="mt-1 text-xs font-bold text-white/50">إكسبيرتات آلية</div>
+              </div>
+              <div class="platform-card glass rounded-2xl p-4">
+                <div class="text-2xl font-black text-ice">MT5</div>
+                <div class="mt-1 text-xs font-bold text-white/50">بوتات وإشارات</div>
+              </div>
+              <div class="platform-card glass rounded-2xl p-4">
+                <div class="text-2xl font-black text-plasma">Pine</div>
+                <div class="mt-1 text-xs font-bold text-white/50">تريدنغ فيو</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-cascade reveal relative" style="--hero-delay: 220ms">
+            <div class="absolute inset-8 rounded-full bg-frost/20 blur-3xl"></div>
+            <div class="glass glow-border floaty relative rounded-[2rem] p-5 sm:p-7">
+              <img
+                src="assets/yahyaz-lab-logo.png"
+                alt="شعار مختبر يحيى"
+                class="logo-mark mx-auto w-full max-w-[520px] object-contain"
+              />
+              <div class="mt-6 rounded-3xl border border-white/10 bg-black/35 p-5">
+                <div class="flex items-center justify-between gap-4">
+                  <div class="flex items-center gap-2">
+                    <span class="h-3 w-3 rounded-full bg-plasma shadow-plasma"></span>
+                    <span class="h-3 w-3 rounded-full bg-yellow-300/90"></span>
+                    <span class="h-3 w-3 rounded-full bg-frost shadow-frost"></span>
+                  </div>
+                  <span class="text-xs font-bold tracking-[.14em] text-white/36">محرك الأتمتة</span>
+                </div>
+                <div class="mt-5 grid gap-3 text-sm font-bold text-white/68">
+                  <div class="automation-row flex items-center justify-between rounded-2xl bg-frost/10 px-4 py-3" style="--engine-delay: 200ms">
+                    <span>إشارة دخول مؤكدة</span><span class="engine-status text-ice">مفعّل</span>
+                  </div>
+                  <div class="automation-row flex items-center justify-between rounded-2xl bg-plasma/10 px-4 py-3" style="--engine-delay: 400ms">
+                    <span>إدارة المخاطر</span><span class="engine-status text-plasma">مفعّل</span>
+                  </div>
+                  <div class="automation-row flex items-center justify-between rounded-2xl bg-white/5 px-4 py-3" style="--engine-delay: 600ms">
+                    <span>تنفيذ آلي</span><span class="engine-status text-ice">مفعّل</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ad-banner" class="pb-8 pt-4 sm:pb-12">
+        <div class="lab-shell">
+          <div class="glass glow-border reveal rounded-[2rem] p-3 sm:p-5" style="--reveal-scale: .98">
+            <img
+              class="ad-image"
+              src="assets/create-mt4-mt5-indicator-or-expert-advisor-metatrader-in-mql4-mql5.png"
+              alt="إعلان احترافي لخدمات المؤشرات المخصصة والإكسبيرتات"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="overflow-hidden border-y border-white/10 bg-white/[0.025] py-4">
+        <div class="marquee-track flex w-max gap-10 whitespace-nowrap text-sm font-black text-white/42">
+          <span>إكسبيرتات ميتاتريدر</span><span class="text-frost">مؤشرات مخصصة</span>
+          <span>أدوات تريدنغ فيو</span><span class="text-plasma">اختبار تاريخي</span>
+          <span>إدارة مخاطر</span><span class="text-frost">مختبر التداول الآلي</span>
+          <span>إكسبيرتات ميتاتريدر</span><span class="text-frost">مؤشرات مخصصة</span>
+          <span>أدوات تريدنغ فيو</span><span class="text-plasma">اختبار تاريخي</span>
+          <span>إدارة مخاطر</span><span class="text-frost">مختبر التداول الآلي</span>
+        </div>
+      </section>
+
+      <section id="youtube" class="py-24 sm:py-28">
+        <div class="lab-shell">
+          <div class="glass glow-border reveal overflow-hidden rounded-[2rem] p-6 sm:p-10">
+            <div class="grid items-center gap-10 lg:grid-cols-[.9fr_1.1fr]">
+              <div>
+                <div class="section-kicker mb-5">من مشاهدة إلى أتمتة</div>
+                <h2 class="text-3xl font-black leading-tight sm:text-5xl">هل شاهدت استراتيجية ذهبية على يوتيوب؟</h2>
+                <p class="mt-6 text-lg leading-9 text-white/70">
+                  حوّلها الآن إلى بوت تداول (EA) أو مؤشر حصري يحمل اسمك. نحن نحلل الفيديو، نصمم المنطق، ونبرمج
+                  البوت بدقة ليعمل على منصتك المفضلة، ليصبح منتجك الخاص الذي يتداول نيابة عنك.
+                </p>
+              </div>
+              <div class="youtube-flow grid gap-8 md:grid-cols-3 md:items-center">
+                <div class="relative z-10 mx-auto flex h-36 w-36 items-center justify-center rounded-[2rem] border border-plasma/35 bg-plasma/10 shadow-plasma">
+                  <svg width="78" height="78" viewBox="0 0 80 80" fill="none" aria-hidden="true">
+                    <rect x="6" y="18" width="68" height="44" rx="14" fill="#ff184c" />
+                    <path d="M35 30L54 40L35 50V30Z" fill="white" />
+                  </svg>
+                </div>
+                <div class="relative z-10 mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-ink text-frost shadow-frost">
+                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <path d="M5 12h14" />
+                    <path d="m13 6 6 6-6 6" />
+                  </svg>
+                </div>
+                <div class="relative z-10 mx-auto w-full max-w-[260px] rounded-[1.6rem] border border-frost/30 bg-black/55 p-4 shadow-frost">
+                  <div class="rounded-2xl border border-white/10 bg-midnight p-4">
+                    <div class="mb-4 h-2 w-16 rounded-full bg-frost/60"></div>
+                    <div class="space-y-2 text-xs font-bold text-frost/70">
+                      <p>تحليل شروط الدخول</p>
+                      <p class="text-plasma">تحويل المنطق إلى أوامر</p>
+                      <p>تسليم بوت قابل للاختبار</p>
+                    </div>
+                  </div>
+                  <div class="mx-auto mt-3 h-2 w-20 rounded-full bg-frost/40"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="relative overflow-hidden py-24 sm:py-28">
+        <div class="absolute -left-20 top-10 opacity-10" aria-hidden="true">
+          <svg width="260" height="260" viewBox="0 0 120 120" fill="none">
+            <path d="M49 18h22v11l-6 8v28l29 35c5 7 1 16-8 16H34c-9 0-13-9-8-16l29-35V37l-6-8V18Z" fill="#ff386f" stroke="#a8efff" stroke-width="5" />
+            <path d="M38 94c12-16 31-14 45 0" stroke="#a8efff" stroke-width="5" />
+          </svg>
+        </div>
+        <div class="lab-shell grid gap-12 lg:grid-cols-[.84fr_1.16fr] lg:items-center">
+          <div class="reveal">
+            <div class="glass pulse-glow rounded-[2rem] p-7 sm:p-9">
+              <div class="grid grid-cols-2 gap-4">
+                <div class="rounded-3xl border border-frost/20 bg-frost/10 p-5">
+                  <div class="text-4xl font-black text-ice">01</div>
+                  <p class="mt-3 text-sm font-bold text-white/62">منطق تداول قابل للقياس</p>
+                </div>
+                <div class="rounded-3xl border border-plasma/25 bg-plasma/10 p-5">
+                  <div class="text-4xl font-black text-plasma">02</div>
+                  <p class="mt-3 text-sm font-bold text-white/62">اختبار تاريخي وتحسين أداء</p>
+                </div>
+                <div class="rounded-3xl border border-white/10 bg-white/[0.045] p-5">
+                  <div class="text-4xl font-black text-ice">03</div>
+                  <p class="mt-3 text-sm font-bold text-white/62">حماية رأس المال وإدارة المخاطر</p>
+                </div>
+                <div class="rounded-3xl border border-white/10 bg-white/[0.045] p-5">
+                  <div class="text-4xl font-black text-plasma">04</div>
+                  <p class="mt-3 text-sm font-bold text-white/62">تسليم واضح ودعم عملي</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="reveal">
+            <div class="section-kicker mb-5">الخبرة التي تقود الكود</div>
+            <h2 class="text-3xl font-black leading-tight sm:text-5xl">من نكون في Yahyaz Lab؟</h2>
+            <p class="mt-7 text-lg leading-9 text-white/72">
+              نحن لسنا مجرد مبرمجين، بل نحن مهندسو استراتيجيات التداول. بخبرة ميدانية تمتد لسنوات طويلة في تحليل
+              الأسواق وصقل الخوارزميات، نجمع بين المعرفة العميقة بأسواق المال والاحترافية البرمجية الدقيقة.
+              نحن نتجاوز مجرد كتابة الكود إلى هندسة الربحية وتأمين رأس المال. ثق في خبرتنا لتكون جسرك نحو تداول
+              آلي ناجح ومستدام.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="portfolio" class="py-24 sm:py-28">
+        <div class="lab-shell">
+          <div class="reveal max-w-3xl">
+            <div class="section-kicker mb-5">نماذج بصرية</div>
+            <h2 class="text-3xl font-black leading-tight sm:text-5xl">أمثلة على أعمالنا</h2>
+          </div>
+          <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <article class="tilt-card glass reveal rounded-[1.8rem] p-5">
+              <button class="portfolio-trigger" type="button" data-lightbox-trigger>
+                <img
+                  class="work-image"
+                  src="assets/program-mt4-mt5-indicator-or-expert-advisor.png"
+                  alt="إكسبيرتات ميتاتريدر متقدمة مع لوحات تحكم"
+                />
+              </button>
+              <h3 class="mt-6 text-2xl font-black">إكسبيرتات MT4/MT5 متقدمة مع لوحات تحكم</h3>
+              <p class="mt-3 leading-8 text-white/62">لوحات تنفيذ وتحكم مصممة لتسريع إدارة الصفقات ومتابعة المخاطر.</p>
+            </article>
+
+            <article class="tilt-card glass reveal rounded-[1.8rem] p-5">
+              <button class="portfolio-trigger" type="button" data-lightbox-trigger>
+                <img
+                  class="work-image"
+                  src="assets/chart.webp"
+                  alt="مؤشرات دقيقة وإشارات بيع وشراء واضحة"
+                />
+              </button>
+              <h3 class="mt-6 text-2xl font-black">مؤشرات دقيقة وإشارات بيع/شراء واضحة</h3>
+              <p class="mt-3 leading-8 text-white/62">إشارات مرئية قابلة للقراءة السريعة مع تنبيهات واتجاهات واضحة على الشارت.</p>
+            </article>
+
+            <article class="tilt-card glass reveal rounded-[1.8rem] p-5 md:col-span-2 xl:col-span-1">
+              <button class="portfolio-trigger" type="button" data-lightbox-trigger>
+                <img
+                  class="work-image"
+                  src="assets/create-your-custom-tradingview-indicator-using-pinescript.png"
+                  alt="أدوات ومؤشرات تريدنغ فيو مخصصة"
+                />
+              </button>
+              <h3 class="mt-6 text-2xl font-black">أدوات ومؤشرات TradingView مخصصة</h3>
+              <p class="mt-3 leading-8 text-white/62">تصميم مؤشرات باين سكريبت حديثة بمناطق لونية وتنبيهات دقيقة لتجربة تداول احترافية.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="pricing" class="py-24 sm:py-28">
+        <div class="lab-shell">
+          <div class="reveal text-center">
+            <div class="section-kicker mb-5">خدمات احترافية</div>
+            <h2 class="text-3xl font-black leading-tight sm:text-5xl">باقات تبدأ بوضوح وتكبر حسب تعقيد المشروع</h2>
+          </div>
+          <div class="mt-12 grid gap-6 lg:grid-cols-2">
+            <article class="price-card featured glass glow-border reveal rounded-[2rem] p-6 sm:p-8">
+              <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h3 class="text-2xl font-black sm:text-3xl">برمجة بوتات التداول (Expert Advisors)</h3>
+                  <p class="mt-3 text-white/58">أتمتة كاملة لمنطق التداول والتنفيذ وإدارة الصفقة.</p>
+                </div>
+                <div class="rounded-2xl border border-plasma/30 bg-plasma/10 px-5 py-4 text-center shadow-plasma">
+                  <p class="text-xs font-bold text-white/48">السعر</p>
+                  <p class="mt-1 text-2xl font-black text-plasma">
+                    يبدأ من <span dir="ltr" class="inline-block">$149.99</span>
+                  </p>
+                </div>
+              </div>
+              <ul class="mt-8 grid gap-4 text-sm font-bold leading-7 text-white/72 sm:text-base">
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>برمجة وتطوير إكسبيرتات (EA) لمنصتي MT4 / MT5</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>مؤشرات وسكربتات مخصصة (MQL4 / MQL5)</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>بوتات تداول الفوركس وحلول التداول الخوارزمي</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>أتمتة كاملة لاستراتيجيات التداول</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>برمجة شروط الدخول والخروج بدقة</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>تحديد وقف الخسارة / أخذ الربح / الوقف المتحرك</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>إدارة المخاطر ورأس المال بذكاء</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>برمجة فلتر أخبار لمنع البوت من التداول أثناء الأخبار</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>تعديل الإكسبيرتات الحالية وإصلاح الأخطاء</span></li>
+              </ul>
+            </article>
+
+            <article class="price-card glass reveal rounded-[2rem] p-6 sm:p-8">
+              <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h3 class="text-2xl font-black sm:text-3xl">برمجة المؤشرات المخصصة (Custom Indicators)</h3>
+                  <p class="mt-3 text-white/58">أدوات قراءة وتحذير متقدمة للشارتات ولوحات المتابعة.</p>
+                </div>
+                <div class="rounded-2xl border border-frost/30 bg-frost/10 px-5 py-4 text-center shadow-frost">
+                  <p class="text-xs font-bold text-white/48">السعر</p>
+                  <p class="mt-1 text-2xl font-black text-ice">
+                    يبدأ من <span dir="ltr" class="inline-block">$99.99</span>
+                  </p>
+                </div>
+              </div>
+              <ul class="mt-8 grid gap-4 text-sm font-bold leading-7 text-white/72 sm:text-base">
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>إشارات دخول وخروج دقيقة (أسهم وعلامات واضحة على الشارت)</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>مؤشرات احترافية لا تعيد رسم نفسها (Non-Repainting)</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>دعم التنبيهات الذكية (إشعارات الهاتف، البريد الإلكتروني، Webhooks)</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>تحليل متعدد الأطر الزمنية (Multi-Timeframe Analysis)</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>لوحة معلومات (Dashboard) تعرض حالة السوق وتفاصيل الصفقات</span></li>
+                <li class="flex gap-3"><span class="check-icon">✓</span><span>أداء عالي وسريع على منصات TradingView و الميتاتريدر</span></li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="workflow" class="py-24 sm:py-28">
+        <div class="lab-shell">
+          <div class="reveal text-center">
+            <div class="section-kicker mb-5">من الفكرة إلى التسليم</div>
+            <h2 class="text-3xl font-black leading-tight sm:text-5xl">رحلتك نحو الأتمتة معنا</h2>
+          </div>
+          <div class="relative mt-14 grid gap-6 lg:grid-cols-4">
+            <div class="step-line absolute left-1/2 top-12 hidden h-1 w-[74%] -translate-x-1/2 rounded-full lg:block"></div>
+            <div class="workflow-card glass reveal relative rounded-[1.6rem] p-6 text-center">
+              <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-frost text-2xl font-black text-ink shadow-frost">1</div>
+              <h3 class="mt-5 text-xl font-black">إرسال الفيديو أو الفكرة</h3>
+              <p class="mt-3 leading-7 text-white/58">شارك الرابط أو القواعد أو صورة الاستراتيجية التي تريد تحويلها.</p>
+            </div>
+            <div class="workflow-card glass reveal relative rounded-[1.6rem] p-6 text-center">
+              <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-plasma text-2xl font-black text-white shadow-plasma">2</div>
+              <h3 class="mt-5 text-xl font-black">تحليل المنطق</h3>
+              <p class="mt-3 leading-7 text-white/58">نفكك شروط الدخول والخروج وإدارة رأس المال بدقة هندسية.</p>
+            </div>
+            <div class="workflow-card glass reveal relative rounded-[1.6rem] p-6 text-center">
+              <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-frost text-2xl font-black text-ink shadow-frost">3</div>
+              <h3 class="mt-5 text-xl font-black">البرمجة والاختبار</h3>
+              <p class="mt-3 leading-7 text-white/58">نبني البوت أو المؤشر ونختبر السلوك تاريخياً وعلى سيناريوهات متعددة.</p>
+            </div>
+            <div class="workflow-card glass reveal relative rounded-[1.6rem] p-6 text-center">
+              <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-plasma text-2xl font-black text-white shadow-plasma">4</div>
+              <h3 class="mt-5 text-xl font-black">التسليم والدعم</h3>
+              <p class="mt-3 leading-7 text-white/58">تحصل على ملفات العمل وشرح الإعدادات ودعم ما بعد التسليم.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="pb-24 pt-10 sm:pb-32">
+        <div class="lab-shell">
+          <div class="glass glow-border reveal overflow-hidden rounded-[2rem] p-6 sm:p-10">
+            <div class="grid gap-10 lg:grid-cols-[.86fr_1.14fr]">
+              <div>
+                <div class="section-kicker mb-5">ابدأ المشروع</div>
+                <h2 class="text-3xl font-black leading-tight sm:text-5xl">احك لنا عن فكرتك، ودع الباقي علينا</h2>
+                <p class="mt-6 text-lg leading-9 text-white/68">
+                  أرسل وصف المشروع أو رابط فيديو يوتيوب للاستراتيجية، وسنعود إليك بتصور عملي وخطوات تنفيذ واضحة.
+                </p>
+                <div class="mt-8 rounded-3xl border border-frost/20 bg-frost/10 p-5">
+                  <p class="text-sm font-bold text-white/48" data-contact-email-label>البريد المهني</p>
+                  <a class="mt-1 inline-block text-xl font-black text-ice" href="mailto:admin@yahyazlab.com" data-contact-email>
+                    admin@yahyazlab.com
+                  </a>
+                </div>
+                <div class="mt-4 rounded-3xl border border-[#25D366]/25 bg-[#25D366]/10 p-5">
+                  <p class="contact-whatsapp-label text-sm font-bold text-white/48">تواصل مباشر</p>
+                  <a class="contact-whatsapp mt-3" href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer">
+                    <span aria-hidden="true">☎</span>
+                    <span class="contact-whatsapp-text">تواصل عبر الواتساب</span>
+                  </a>
+                </div>
+              </div>
+              <form class="grid gap-4" action="mailto:admin@yahyazlab.com" method="post" enctype="text/plain">
+                <label>
+                  <span class="mb-2 block text-sm font-bold text-white/54">الاسم</span>
+                  <input class="input-field" name="name" autocomplete="name" placeholder="اكتب اسمك الكامل" />
+                </label>
+                <label>
+                  <span class="mb-2 block text-sm font-bold text-white/54">البريد الإلكتروني</span>
+                  <input class="input-field" name="email" type="email" autocomplete="email" placeholder="name@example.com" />
+                </label>
+                <label>
+                  <span class="mb-2 block text-sm font-bold text-white/54">تفاصيل المشروع</span>
+                  <textarea
+                    class="input-field min-h-36 resize-y"
+                    name="project"
+                    placeholder="صف الاستراتيجية أو أضف رابط فيديو يوتيوب، المنصة المطلوبة، وأي شروط خاصة لإدارة المخاطر..."
+                  ></textarea>
+                </label>
+                <button class="cta-primary mt-2 w-full border-0" type="submit">إرسال طلب المشروع</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-white/10 py-8">
+      <div class="lab-shell flex flex-col items-center justify-between gap-4 text-center text-sm text-white/42 sm:flex-row">
+        <p>© <span id="year"></span> مختبر يحيى. جميع الحقوق محفوظة.</p>
+        <p>ميتاتريدر ٤ · ميتاتريدر ٥ · تريدنغ فيو · باين سكريبت</p>
+      </div>
+    </footer>
+
+    <a
+      class="whatsapp fixed bottom-5 left-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white transition hover:-translate-y-1"
+      href="https://wa.me/628211323886"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="تواصل عبر واتساب"
+      title="تواصل عبر واتساب"
+    >
+      <svg width="30" height="30" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+        <path d="M16.01 3.2A12.69 12.69 0 0 0 5.23 22.58L3.6 28.8l6.38-1.56A12.68 12.68 0 1 0 16.01 3.2Zm0 2.34a10.34 10.34 0 0 1 8.77 15.83 10.33 10.33 0 0 1-13.99 3.58l-.46-.27-3.78.92.96-3.66-.3-.48A10.34 10.34 0 0 1 16.01 5.54Zm-4.23 4.81c-.23 0-.6.08-.91.43-.31.34-1.2 1.17-1.2 2.86s1.23 3.32 1.4 3.55c.17.23 2.38 3.81 5.88 5.19 2.91 1.15 3.5.92 4.13.86.63-.06 2.04-.83 2.33-1.63.29-.8.29-1.49.2-1.63-.09-.14-.32-.23-.66-.4-.34-.17-2.04-1-2.35-1.12-.32-.11-.55-.17-.78.17-.23.34-.89 1.12-1.09 1.35-.2.23-.4.26-.74.09-.34-.17-1.44-.53-2.74-1.69-1.01-.9-1.7-2.02-1.9-2.36-.2-.34-.02-.53.15-.7.15-.15.34-.4.52-.6.17-.2.23-.34.34-.57.11-.23.06-.43-.03-.6-.09-.17-.78-1.88-1.07-2.58-.28-.67-.57-.58-.78-.59h-.7Z" />
+      </svg>
+    </a>
+
+    <div class="lightbox" id="portfolioLightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" hidden>
+      <div class="lightbox-panel">
+        <div class="lightbox-header">
+          <p class="lightbox-title" id="lightboxTitle">معاينة العمل</p>
+          <button class="lightbox-close" type="button" aria-label="إغلاق المعاينة" data-lightbox-close>&times;</button>
+        </div>
+        <img class="lightbox-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" />
+      </div>
+    </div>
+
+    <script>
+      const currentYear = new Date().getFullYear().toString();
+      const contactEmail = "admin@yahyazlab.com";
+      const whatsappUrl = "https://wa.me/628211323886";
+      document.getElementById("year").textContent = currentYear;
+
+      const translations = {
+        ar: {
+          lang: "ar",
+          dir: "rtl",
+          pageTitle: "مختبر يحيى | هندسة أتمتة التداول",
+          metaDescription:
+            "مختبر يحيى لهندسة أتمتة التداول: بوتات تداول، إكسبيرتات، مؤشرات مخصصة، وأدوات متقدمة لمنصات ميتاتريدر وتريدنغ فيو.",
+          logoAlt: "شعار مختبر يحيى",
+          langLabel: "اختيار اللغة",
+          nav: ["من الفكرة للبوت", "من نكون", "الأعمال", "الباقات", "الرحلة", "تواصل"],
+          headerCta: "طلب استشارة",
+          heroKicker: "مختبر هندسة التداول الآلي",
+          heroTitle: "جسرك لأتمتة التداول.. حوّل استراتيجيتك المخصصة إلى مؤشرات وبوتات حقيقية",
+          heroSubtitle:
+            "ابدأ بتطوير مؤشرك الخاص المزود بإشارات صفقات واضحة، وحوّل أي منطق تداول (سواء كان فكرة شخصية أو استراتيجية من اليوتيوب وغيره) إلى بوت تداول خوارزمي متكامل ومؤمن بالكامل لإدارة مخاطرك.",
+          heroPrimary: "ابدأ رحلة الأتمتة الآن",
+          heroSecondary: "استكشف خدماتنا",
+          heroStats: ["إكسبيرتات آلية", "بوتات وإشارات", "تريدنغ فيو"],
+          engineLabel: "محرك الأتمتة",
+          engineRows: ["إشارة دخول مؤكدة", "مفعّل", "إدارة المخاطر", "مفعّل", "تنفيذ آلي", "مفعّل"],
+          ticker: [
+            "إكسبيرتات ميتاتريدر",
+            "مؤشرات مخصصة",
+            "أدوات تريدنغ فيو",
+            "اختبار تاريخي",
+            "إدارة مخاطر",
+            "مختبر التداول الآلي",
+            "إكسبيرتات ميتاتريدر",
+            "مؤشرات مخصصة",
+            "أدوات تريدنغ فيو",
+            "اختبار تاريخي",
+            "إدارة مخاطر",
+            "مختبر التداول الآلي",
+          ],
+          youtubeKicker: "من مشاهدة إلى أتمتة",
+          youtubeTitle: "هل شاهدت استراتيجية ذهبية على يوتيوب؟",
+          youtubeText:
+            "حوّلها الآن إلى بوت تداول (EA) أو مؤشر حصري يحمل اسمك. نحن نحلل الفيديو، نصمم المنطق، ونبرمج البوت بدقة ليعمل على منصتك المفضلة، ليصبح منتجك الخاص الذي يتداول نيابة عنك.",
+          youtubeSteps: ["تحليل شروط الدخول", "تحويل المنطق إلى أوامر", "تسليم بوت قابل للاختبار"],
+          aboutCards: ["منطق تداول قابل للقياس", "اختبار تاريخي وتحسين أداء", "حماية رأس المال وإدارة المخاطر", "تسليم واضح ودعم عملي"],
+          aboutKicker: "الخبرة التي تقود الكود",
+          aboutTitle: "من نكون في Yahyaz Lab؟",
+          aboutText:
+            "نحن لسنا مجرد مبرمجين، بل نحن مهندسو استراتيجيات التداول. بخبرة ميدانية تمتد لسنوات طويلة في تحليل الأسواق وصقل الخوارزميات، نجمع بين المعرفة العميقة بأسواق المال والاحترافية البرمجية الدقيقة. نحن نتجاوز مجرد كتابة الكود إلى هندسة الربحية وتأمين رأس المال. ثق في خبرتنا لتكون جسرك نحو تداول آلي ناجح ومستدام.",
+          portfolioKicker: "نماذج بصرية",
+          portfolioTitle: "أمثلة على أعمالنا",
+          portfolioTitles: [
+            "إكسبيرتات MT4/MT5 متقدمة مع لوحات تحكم",
+            "مؤشرات دقيقة وإشارات بيع/شراء واضحة",
+            "أدوات ومؤشرات TradingView مخصصة",
+          ],
+          portfolioTexts: [
+            "لوحات تنفيذ وتحكم مصممة لتسريع إدارة الصفقات ومتابعة المخاطر.",
+            "إشارات مرئية قابلة للقراءة السريعة مع تنبيهات واتجاهات واضحة على الشارت.",
+            "تصميم مؤشرات باين سكريبت حديثة بمناطق لونية وتنبيهات دقيقة لتجربة تداول احترافية.",
+          ],
+          portfolioAlts: [
+            "إكسبيرتات ميتاتريدر متقدمة مع لوحات تحكم",
+            "مؤشرات دقيقة وإشارات بيع وشراء واضحة",
+            "أدوات ومؤشرات تريدنغ فيو مخصصة",
+          ],
+          pricingKicker: "خدمات احترافية",
+          pricingTitle: "باقات تبدأ بوضوح وتكبر حسب تعقيد المشروع",
+          priceCards: [
+            {
+              title: "برمجة بوتات التداول (Expert Advisors)",
+              desc: "أتمتة كاملة لمنطق التداول والتنفيذ وإدارة الصفقة.",
+              priceLabel: "السعر",
+              price: 'يبدأ من <span dir="ltr" class="inline-block">$149.99</span>',
+              features: [
+                "برمجة وتطوير إكسبيرتات (EA) لمنصتي MT4 / MT5",
+                "مؤشرات وسكربتات مخصصة (MQL4 / MQL5)",
+                "بوتات تداول الفوركس وحلول التداول الخوارزمي",
+                "أتمتة كاملة لاستراتيجيات التداول",
+                "برمجة شروط الدخول والخروج بدقة",
+                "تحديد وقف الخسارة / أخذ الربح / الوقف المتحرك",
+                "إدارة المخاطر ورأس المال بذكاء",
+                "برمجة فلتر أخبار لمنع البوت من التداول أثناء الأخبار",
+                "تعديل الإكسبيرتات الحالية وإصلاح الأخطاء",
+              ],
+            },
+            {
+              title: "برمجة المؤشرات المخصصة (Custom Indicators)",
+              desc: "أدوات قراءة وتحذير متقدمة للشارتات ولوحات المتابعة.",
+              priceLabel: "السعر",
+              price: 'يبدأ من <span dir="ltr" class="inline-block">$99.99</span>',
+              features: [
+                "إشارات دخول وخروج دقيقة (أسهم وعلامات واضحة على الشارت)",
+                "مؤشرات احترافية لا تعيد رسم نفسها (Non-Repainting)",
+                "دعم التنبيهات الذكية (إشعارات الهاتف، البريد الإلكتروني، Webhooks)",
+                "تحليل متعدد الأطر الزمنية (Multi-Timeframe Analysis)",
+                "لوحة معلومات (Dashboard) تعرض حالة السوق وتفاصيل الصفقات",
+                "أداء عالي وسريع على منصات TradingView و الميتاتريدر",
+              ],
+            },
+          ],
+          workflowKicker: "من الفكرة إلى التسليم",
+          workflowTitle: "رحلتك نحو الأتمتة معنا",
+          workflowSteps: [
+            ["إرسال الفيديو أو الفكرة", "شارك الرابط أو القواعد أو صورة الاستراتيجية التي تريد تحويلها."],
+            ["تحليل المنطق", "نفكك شروط الدخول والخروج وإدارة رأس المال بدقة هندسية."],
+            ["البرمجة والاختبار", "نبني البوت أو المؤشر ونختبر السلوك تاريخياً وعلى سيناريوهات متعددة."],
+            ["التسليم والدعم", "تحصل على ملفات العمل وشرح الإعدادات ودعم ما بعد التسليم."],
+          ],
+          contactKicker: "ابدأ المشروع",
+          contactTitle: "احكِ لنا عن فكرتك، ودع الباقي علينا",
+          contactText: "أرسل وصف المشروع أو رابط فيديو يوتيوب للاستراتيجية، وسنعود إليك بتصور عملي وخطوات تنفيذ واضحة.",
+          emailLabel: "البريد المهني",
+          whatsappLabel: "تواصل مباشر",
+          whatsappButton: "تواصل عبر الواتساب",
+          formLabels: ["الاسم", "البريد الإلكتروني", "تفاصيل المشروع"],
+          placeholders: [
+            "اكتب اسمك الكامل...",
+            "name@example.com",
+            "وصف الاستراتيجية أو أنظمة إدارة المخاطر...",
+          ],
+          submit: "إرسال طلب المشروع",
+          footer: ["© {year} مختبر يحيى. جميع الحقوق محفوظة.", "ميتاتريدر ٤ · ميتاتريدر ٥ · تريدنغ فيو · باين سكريبت"],
+          whatsapp: "تواصل عبر واتساب",
+          lightboxTitle: "معاينة العمل",
+          closeLightbox: "إغلاق المعاينة",
+        },
+        en: {
+          lang: "en",
+          dir: "ltr",
+          pageTitle: "Yahyaz Lab | Trading Automation Engineering",
+          metaDescription:
+            "Yahyaz Lab engineers trading automation: Expert Advisors, trading bots, custom indicators, and advanced tools for MetaTrader and TradingView.",
+          logoAlt: "Yahyaz Lab logo",
+          langLabel: "Choose language",
+          nav: ["YouTube to Bot", "About", "Work", "Pricing", "Workflow", "Contact"],
+          headerCta: "Request Consultation",
+          heroKicker: "Trading Automation Engineering Lab",
+          heroTitle: "Your Bridge to Automated Trading.. Transform Your Custom Strategy into Real Indicators & Bots",
+          heroSubtitle:
+            "Start developing your own custom indicator equipped with clear trade signals, and convert any trading logic—whether a personal concept or a strategy from YouTube and beyond—into a fully automated, risk-managed algorithmic trading bot.",
+          heroPrimary: "Start Automation Now",
+          heroSecondary: "Explore Services",
+          heroStats: ["Expert Advisors", "Bots & Signals", "TradingView"],
+          engineLabel: "Automation Engine",
+          engineRows: ["Confirmed Entry Signal", "Active", "Risk Management", "Active", "Automated Execution", "Active"],
+          ticker: [
+            "MetaTrader Expert Advisors",
+            "Custom Indicators",
+            "TradingView Tools",
+            "Historical Backtesting",
+            "Risk Management",
+            "Trading Automation Lab",
+            "MetaTrader Expert Advisors",
+            "Custom Indicators",
+            "TradingView Tools",
+            "Historical Backtesting",
+            "Risk Management",
+            "Trading Automation Lab",
+          ],
+          youtubeKicker: "From Watching to Automation",
+          youtubeTitle: "Watched a golden strategy on YouTube?",
+          youtubeText:
+            "Turn it into a trading bot (EA) or an exclusive indicator carrying your name. We analyze the video, design the logic, and code the bot precisely for your preferred platform so it can trade on your behalf.",
+          youtubeSteps: ["Analyze entry rules", "Convert logic into orders", "Deliver a testable bot"],
+          aboutCards: ["Measurable trading logic", "Backtesting and optimization", "Capital and risk protection", "Clear delivery and practical support"],
+          aboutKicker: "Experience That Leads the Code",
+          aboutTitle: "Who are we at Yahyaz Lab?",
+          aboutText:
+            "We are not just programmers; we are trading strategy engineers. With years of field experience in market analysis and algorithm refinement, we combine deep financial-market knowledge with precise software craftsmanship. We go beyond writing code into engineering profitability and protecting capital. Trust our expertise to be your bridge toward successful and sustainable automated trading.",
+          portfolioKicker: "Visual Examples",
+          portfolioTitle: "Examples of Our Work",
+          portfolioTitles: [
+            "Advanced MT4/MT5 Expert Advisors with Control Panels",
+            "Precise Indicators with Clear Buy/Sell Signals",
+            "Custom TradingView Tools and Indicators",
+          ],
+          portfolioTexts: [
+            "Execution and control panels designed to speed up trade management and risk tracking.",
+            "Readable visual signals with alerts and clear chart direction.",
+            "Modern Pine Script indicators with colored zones and precise alerts for a professional trading experience.",
+          ],
+          portfolioAlts: [
+            "Advanced MetaTrader expert advisors with control panels",
+            "Precise indicators with clear buy and sell signals",
+            "Custom TradingView tools and indicators",
+          ],
+          pricingKicker: "Premium Services",
+          pricingTitle: "Clear starting packages that scale with project complexity",
+          priceCards: [
+            {
+              title: "Trading Bot Programming (Expert Advisors)",
+              desc: "Full automation for trading logic, execution, and trade management.",
+              priceLabel: "Price",
+              price: 'Starts from <span dir="ltr" class="inline-block">$149.99</span>',
+              features: [
+                "Programming and developing Expert Advisors (EA) for MT4 / MT5",
+                "Custom indicators and scripts (MQL4 / MQL5)",
+                "Forex trading bots and algorithmic trading solutions",
+                "Full automation of trading strategies",
+                "Precise coding of entry and exit conditions",
+                "Stop loss / take profit / trailing stop setup",
+                "Smart risk and capital management",
+                "News filter programming to stop the bot from trading during news events",
+                "Modifying existing EAs and fixing bugs",
+              ],
+            },
+            {
+              title: "Custom Indicator Programming",
+              desc: "Advanced chart-reading and alert tools for dashboards and market monitoring.",
+              priceLabel: "Price",
+              price: 'Starts from <span dir="ltr" class="inline-block">$99.99</span>',
+              features: [
+                "Precise entry and exit signals with clear arrows and chart markers",
+                "Professional non-repainting indicators",
+                "Smart alerts support: mobile notifications, email, and webhooks",
+                "Multi-timeframe analysis",
+                "Dashboard showing market state and trade details",
+                "High-performance tools for TradingView and MetaTrader",
+              ],
+            },
+          ],
+          workflowKicker: "From Idea to Delivery",
+          workflowTitle: "Your Automation Journey With Us",
+          workflowSteps: [
+            ["Submit Video or Concept", "Share the link, rules, or screenshot of the strategy you want to automate."],
+            ["Logic Analysis", "We break down entry/exit conditions and money management with engineering precision."],
+            ["Coding & Backtesting", "We build your bot or indicator and historical backtest its behavior across multiple market scenarios."],
+            ["Delivery & Support", "Receive your source/compiled files, setup guides, and comprehensive post-delivery support."],
+          ],
+          contactKicker: "Start the Project",
+          contactTitle: "Tell Us Your Idea, Leave the Rest to the Lab",
+          contactText: "Send your project description or YouTube strategy link, and we will get back to you with a practical roadmap and clear execution steps.",
+          emailLabel: "Professional Email",
+          whatsappLabel: "Direct Contact",
+          whatsappButton: "Chat via WhatsApp",
+          formLabels: ["Name", "Email Address", "Project Details"],
+          placeholders: [
+            "Enter your full name...",
+            "name@example.com",
+            "Describe your strategy, indicators, or risk management rules...",
+          ],
+          submit: "Submit Project Request",
+          footer: ["© {year} Yahyaz Lab. All rights reserved.", "MetaTrader 4 · MetaTrader 5 · TradingView · Pine Script"],
+          whatsapp: "Contact via WhatsApp",
+          lightboxTitle: "Work Preview",
+          closeLightbox: "Close preview",
+        },
+      };
+
+      function setText(selector, value, root = document) {
+        const element = root.querySelector(selector);
+        if (element) element.textContent = value;
+      }
+
+      function setHtml(selector, value, root = document) {
+        const element = root.querySelector(selector);
+        if (element) element.innerHTML = value;
+      }
+
+      function setAll(selector, values, root = document) {
+        root.querySelectorAll(selector).forEach((element, index) => {
+          if (values[index] !== undefined) element.textContent = values[index];
+        });
+      }
+
+      function escapeHtml(value) {
+        return value
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function renderHeadline(text, language) {
+        const headline = document.querySelector("main > section:first-of-type h1");
+        if (!headline) return;
+
+        const words = text.trim().split(/\s+/);
+        const highlightStart =
+          language === "ar"
+            ? Math.max(words.findIndex((word) => word.includes("مؤشرات")), words.length - 3)
+            : Math.max(words.findIndex((word) => word === "Real"), words.length - 4);
+
+        headline.innerHTML = words
+          .map((word, index) => {
+            const highlighted = index >= highlightStart ? " ice-text" : "";
+            return `<span class="headline-word${highlighted}" style="--word-delay:${180 + index * 58}ms">${escapeHtml(word)}</span>`;
+          })
+          .join(" ");
+        headline.setAttribute("aria-label", text);
+      }
+
+      function applyLanguage(language) {
+        const t = translations[language] || translations.ar;
+        document.documentElement.lang = t.lang;
+        document.documentElement.dir = t.dir;
+        document.body.dir = t.dir;
+        document.title = t.pageTitle;
+        document.querySelector("meta[name='description']")?.setAttribute("content", t.metaDescription);
+        document.querySelectorAll("#workflow, #contact").forEach((section) => section.setAttribute("dir", t.dir));
+
+        document.querySelector("header a[aria-label]")?.setAttribute("aria-label", t.lang === "ar" ? "مختبر يحيى" : "Yahyaz Lab");
+        document.querySelectorAll(".logo-mark").forEach((image) => (image.alt = t.logoAlt));
+        document.querySelector(".language-switch")?.setAttribute("aria-label", t.langLabel);
+        document.querySelectorAll("[data-lang]").forEach((button) => button.classList.toggle("is-active", button.dataset.lang === language));
+
+        setAll("header .nav-link", t.nav);
+        setText("header .cta-secondary", t.headerCta);
+
+        setText("main > section:first-of-type .section-kicker", t.heroKicker);
+        renderHeadline(t.heroTitle, t.lang);
+        setText("main > section:first-of-type h1 + p", t.heroSubtitle);
+        setText("main > section:first-of-type .cta-primary", t.heroPrimary);
+        setText("main > section:first-of-type .cta-secondary", t.heroSecondary);
+        setAll("main > section:first-of-type .grid.max-w-2xl .text-xs", t.heroStats);
+        setText("main > section:first-of-type .tracking-\\[\\.14em\\]", t.engineLabel);
+        setAll("main > section:first-of-type .mt-5.grid.gap-3 span", t.engineRows);
+        setAll(".marquee-track span", t.ticker);
+
+        setText("#youtube .section-kicker", t.youtubeKicker);
+        setText("#youtube h2", t.youtubeTitle);
+        setText("#youtube h2 + p", t.youtubeText);
+        setAll("#youtube .space-y-2 p", t.youtubeSteps);
+
+        setAll("#about .grid.grid-cols-2 p", t.aboutCards);
+        setText("#about .section-kicker", t.aboutKicker);
+        setText("#about h2", t.aboutTitle);
+        setText("#about h2 + p", t.aboutText);
+
+        setText("#portfolio .section-kicker", t.portfolioKicker);
+        setText("#portfolio h2", t.portfolioTitle);
+        setAll("#portfolio article h3", t.portfolioTitles);
+        setAll("#portfolio article p", t.portfolioTexts);
+        document.querySelectorAll("#portfolio img").forEach((image, index) => {
+          image.alt = t.portfolioAlts[index] || image.alt;
+        });
+
+        setText("#pricing .section-kicker", t.pricingKicker);
+        setText("#pricing h2", t.pricingTitle);
+        document.querySelectorAll("#pricing article").forEach((card, index) => {
+          const data = t.priceCards[index];
+          if (!data) return;
+          setText("h3", data.title, card);
+          const description = card.querySelector("h3")?.nextElementSibling;
+          if (description) description.textContent = data.desc;
+          setText(".text-xs", data.priceLabel, card);
+          const price = card.querySelector(".text-xs")?.nextElementSibling;
+          if (price) price.innerHTML = data.price;
+          setAll("li span:last-child", data.features, card);
+        });
+
+        setText("#workflow .section-kicker", t.workflowKicker);
+        setText("#workflow h2", t.workflowTitle);
+        document.querySelectorAll("#workflow .workflow-card").forEach((card, index) => {
+          const step = t.workflowSteps[index];
+          if (!step) return;
+          setText("h3", step[0], card);
+          setText("p", step[1], card);
+        });
+
+        setText("#contact .section-kicker", t.contactKicker);
+        setText("#contact h2", t.contactTitle);
+        setText("#contact h2 + p", t.contactText);
+        setText("#contact [data-contact-email-label]", t.emailLabel);
+        setText("#contact .contact-whatsapp-label", t.whatsappLabel);
+        setText("#contact .contact-whatsapp-text", t.whatsappButton);
+        setAll("#contact form label span", t.formLabels);
+        const fields = document.querySelectorAll("#contact input, #contact textarea");
+        fields.forEach((field, index) => {
+          field.setAttribute("placeholder", t.placeholders[index] || "");
+          field.setAttribute("dir", field.type === "email" ? "ltr" : t.dir);
+        });
+        setText("#contact button[type='submit']", t.submit);
+        document.querySelector("#contact form")?.setAttribute("dir", t.dir);
+        document.querySelector("#contact form")?.setAttribute("action", `mailto:${contactEmail}`);
+        document.querySelectorAll("[data-contact-email]").forEach((link) => {
+          link.textContent = contactEmail;
+          link.setAttribute("href", `mailto:${contactEmail}`);
+          link.setAttribute("dir", "ltr");
+        });
+
+        const footerParagraphs = document.querySelectorAll("footer p");
+        if (footerParagraphs[0]) footerParagraphs[0].textContent = t.footer[0].replace("{year}", currentYear);
+        if (footerParagraphs[1]) footerParagraphs[1].textContent = t.footer[1];
+
+        const whatsapp = document.querySelector(".whatsapp");
+        whatsapp?.setAttribute("aria-label", t.whatsapp);
+        whatsapp?.setAttribute("title", t.whatsapp);
+        whatsapp?.setAttribute("href", whatsappUrl);
+        whatsapp?.setAttribute("target", "_blank");
+        whatsapp?.setAttribute("rel", "noopener noreferrer");
+        const contactWhatsapp = document.querySelector("#contact .contact-whatsapp");
+        contactWhatsapp?.setAttribute("aria-label", t.whatsappButton);
+        contactWhatsapp?.setAttribute("title", t.whatsappButton);
+        contactWhatsapp?.setAttribute("href", whatsappUrl);
+        contactWhatsapp?.setAttribute("target", "_blank");
+        contactWhatsapp?.setAttribute("rel", "noopener noreferrer");
+        lightboxTitle.textContent = t.lightboxTitle;
+        closeLightboxButton.setAttribute("aria-label", t.closeLightbox);
+      }
+
+      document.querySelectorAll("[data-lang]").forEach((button) => {
+        button.addEventListener("click", () => applyLanguage(button.dataset.lang));
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.14 }
+      );
+
+      document.querySelectorAll(".reveal").forEach((element, index) => {
+        element.style.transitionDelay = `${Math.min(index * 42, 240)}ms`;
+        observer.observe(element);
+      });
+
+      document.querySelectorAll("#portfolio article").forEach((card, index) => {
+        card.style.transitionDelay = `${index * 150}ms`;
+      });
+
+      document.querySelectorAll(".price-card").forEach((card) => {
+        card.querySelectorAll("li").forEach((item, index) => {
+          item.style.setProperty("--feature-delay", `${index * 70}ms`);
+        });
+      });
+
+      document.querySelectorAll(".platform-card").forEach((card) => {
+        card.addEventListener("pointermove", (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - 0.5;
+          const y = (event.clientY - rect.top) / rect.height - 0.5;
+          card.style.transform = `translate3d(${x * 8}px, ${y * 8}px, 0)`;
+        });
+        card.addEventListener("pointerleave", () => {
+          card.style.transform = "";
+        });
+      });
+
+      const lightbox = document.getElementById("portfolioLightbox");
+      const lightboxImage = lightbox.querySelector(".lightbox-image");
+      const lightboxTitle = document.getElementById("lightboxTitle");
+      const closeLightboxButton = lightbox.querySelector("[data-lightbox-close]");
+      let previousFocus = null;
+
+      function openLightbox(image) {
+        previousFocus = document.activeElement;
+        lightboxImage.src = image.currentSrc || image.src;
+        lightboxImage.alt = image.alt;
+        lightboxTitle.textContent =
+          image.closest("article").querySelector("h3")?.textContent ||
+          translations[document.documentElement.lang]?.lightboxTitle ||
+          translations.ar.lightboxTitle;
+        lightbox.hidden = false;
+        document.body.style.overflow = "hidden";
+        requestAnimationFrame(() => {
+          lightbox.classList.add("is-open");
+          closeLightboxButton.focus();
+        });
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("is-open");
+        document.body.style.overflow = "";
+        window.setTimeout(() => {
+          lightbox.hidden = true;
+          lightboxImage.removeAttribute("src");
+          if (previousFocus) previousFocus.focus();
+        }, 220);
+      }
+
+      document.querySelectorAll("[data-lightbox-trigger]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const image = button.querySelector("img");
+          if (image) openLightbox(image);
+        });
+      });
+
+      closeLightboxButton.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
+      });
+
+      function getSystemLanguage() {
+        const languages = window.navigator?.languages?.length ? window.navigator.languages : [window.navigator?.language || "en"];
+        const primaryLanguage = (languages[0] || "en").toLowerCase();
+        return primaryLanguage.startsWith("ar") ? "ar" : "en";
+      }
+
+      applyLanguage(getSystemLanguage());
+
+      const canvas = document.getElementById("labCanvas");
+      const ctx = canvas.getContext("2d");
+      let width = 0;
+      let height = 0;
+      let dpr = 1;
+      let particles = [];
+
+      function resizeCanvas() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        particles = Array.from({ length: Math.min(70, Math.floor(width / 18)) }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: Math.random() * 1.8 + 0.6,
+          vx: (Math.random() - 0.5) * 0.24,
+          vy: (Math.random() - 0.5) * 0.24,
+          hue: Math.random() > 0.72 ? "255,56,111" : "105,220,255",
+        }));
+      }
+
+      function drawCandles(time) {
+        const baseY = height * 0.68;
+        const candleWidth = Math.max(7, width / 120);
+        const gap = candleWidth * 1.9;
+        ctx.save();
+        ctx.globalAlpha = 0.22;
+        for (let x = -gap; x < width + gap; x += gap) {
+          const wave = Math.sin((x + time * 0.035) * 0.012);
+          const y = baseY + wave * 58 + Math.sin(time * 0.001 + x * 0.03) * 18;
+          const high = y - 35 - Math.abs(wave) * 32;
+          const low = y + 35 + Math.abs(wave) * 24;
+          const isUp = wave > 0;
+          ctx.strokeStyle = isUp ? "rgba(105,220,255,.46)" : "rgba(255,56,111,.42)";
+          ctx.fillStyle = isUp ? "rgba(105,220,255,.18)" : "rgba(255,56,111,.17)";
+          ctx.beginPath();
+          ctx.moveTo(x, high);
+          ctx.lineTo(x, low);
+          ctx.stroke();
+          ctx.fillRect(x - candleWidth / 2, y - 18, candleWidth, 36);
+        }
+        ctx.restore();
+      }
+
+      function animate(time) {
+        ctx.clearRect(0, 0, width, height);
+        drawCandles(time);
+
+        particles.forEach((p, i) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > width) p.vx *= -1;
+          if (p.y < 0 || p.y > height) p.vy *= -1;
+
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(${p.hue}, .72)`;
+          ctx.shadowColor = `rgba(${p.hue}, .8)`;
+          ctx.shadowBlur = 14;
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          for (let j = i + 1; j < particles.length; j += 1) {
+            const q = particles[j];
+            const dx = p.x - q.x;
+            const dy = p.y - q.y;
+            const distance = Math.hypot(dx, dy);
+            if (distance < 120) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(105,220,255, ${0.12 * (1 - distance / 120)})`;
+              ctx.lineWidth = 1;
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(q.x, q.y);
+              ctx.stroke();
+            }
+          }
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas);
+      requestAnimationFrame(animate);
+    </script>
+  </body>
+</html>
