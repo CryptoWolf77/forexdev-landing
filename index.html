@@ -334,9 +334,9 @@
       }
 
       .hero-title {
-        line-height: 1.3;
+        line-height: 1.34;
         overflow: visible;
-        padding-bottom: 0.75rem;
+        padding-bottom: 1rem;
         text-wrap: balance;
         text-shadow:
           0 0 32px rgba(105, 220, 255, 0.25),
@@ -346,7 +346,10 @@
       .headline-word {
         display: inline-block;
         opacity: 0;
-        padding-bottom: 0.08em;
+        overflow: visible;
+        padding-block: 0.04em 0.2em;
+        line-height: 1.16;
+        vertical-align: baseline;
         transform: translate3d(0, 28px, 0) rotateX(38deg);
         transform-origin: 50% 100%;
         animation: headlineWordRise 0.82s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -363,6 +366,20 @@
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
+        overflow: visible;
+        padding-bottom: 0.2em;
+      }
+
+      main h2.text-3xl.font-black {
+        overflow: visible;
+        padding-bottom: 0.08em;
+        line-height: 1.28;
+      }
+
+      main h3.font-black {
+        overflow: visible;
+        padding-bottom: 0.04em;
+        line-height: 1.28;
       }
 
       .cta-primary,
@@ -1410,7 +1427,7 @@
         <div class="lab-shell grid items-center gap-12 lg:grid-cols-[1.02fr_.98fr]">
           <div class="reveal">
             <div class="section-kicker hero-cascade mb-7" style="--hero-delay: 60ms">مختبر هندسة التداول الآلي</div>
-            <h1 class="hero-title hero-cascade max-w-4xl overflow-visible pb-3 text-4xl font-black leading-[1.3] sm:text-5xl lg:text-6xl" style="--hero-delay: 180ms">
+            <h1 class="hero-title hero-cascade max-w-4xl overflow-visible pb-5 text-4xl font-black leading-[1.34] sm:text-5xl lg:text-6xl" style="--hero-delay: 180ms">
               حوّل استراتيجيتك إلى بوت تداول آلي ومؤشر مخصص..
               <span class="ice-text">واختبره قبل الدفع</span>
             </h1>
