@@ -33,6 +33,47 @@
     />
     <meta name="twitter:image" content="https://forexdev.yahyazlab.com/assets/yahyaz-lab-logo.png" />
     <title>Custom MT4/MT5 EA Developer | Forex Trading Bots | YahyazLab</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18274663357"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-18274663357');
+    </script>
+    <script>
+      function gtag_report_conversion(url) {
+        var callback = function () {
+          if (typeof(url) !== 'undefined') {
+            window.location = url;
+          }
+        };
+
+        if (typeof gtag === 'function') {
+          gtag('event', 'conversion', {
+            'send_to': 'AW-18274663357/-zjcCNSWhCyCEI33hIpF',
+            'value': 1.0,
+            'currency': 'USD',
+            'event_callback': callback
+          });
+
+          setTimeout(function () {
+            if (typeof(url) !== 'undefined') {
+              window.location = url;
+            }
+          }, 1000);
+
+          return false;
+        }
+
+        if (typeof(url) !== 'undefined') {
+          window.location = url;
+        }
+
+        return false;
+      }
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -1357,7 +1398,7 @@
             <button class="is-active" type="button" data-lang="ar" aria-label="عرض الموقع باللغة العربية">AR</button>
             <button type="button" data-lang="en" aria-label="View website in English">EN</button>
           </div>
-          <a href="#contact" class="cta-secondary hidden min-h-11 px-5 text-sm md:inline-flex">طلب استشارة</a>
+          <a href="#contact" onclick="return gtag_report_conversion('#contact');" class="cta-secondary hidden min-h-11 px-5 text-sm md:inline-flex">طلب استشارة</a>
         </div>
       </nav>
     </header>
@@ -1377,7 +1418,7 @@
               في YahyazLab، أقدّم هندسة برمجية دقيقة لأتمتة صفقاتك على منصات MT4، MT5، وTradingView. شاركني شروط استراتيجيتك المكتوبة أو المرئية، وسأمنحك نسخة تجريبية لـ 3 أيام لتتأكد من دقة الأداء بنفسك.
             </p>
             <div class="hero-cascade hero-cta-focus mt-10 mb-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:mb-4" style="--hero-delay: 430ms">
-              <a href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer" class="cta-primary hero-primary-cta">ابدأ برمجة استراتيجيتك الآن (واتساب)</a>
+              <a href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer" onclick="return gtag_report_conversion('https://wa.me/628211323886');" class="cta-primary hero-primary-cta">ابدأ برمجة استراتيجيتك الآن (واتساب)</a>
               <a href="#fair-use-policy" class="cta-secondary">اطلع على سياسة الاختبار العادل</a>
             </div>
             <div class="hero-cascade mt-10 grid max-w-2xl grid-cols-3 gap-3 text-center" style="--hero-delay: 560ms">
@@ -1787,7 +1828,7 @@
                 </p>
                 <div class="mt-8 rounded-3xl border border-frost/20 bg-frost/10 p-5">
                   <p class="text-sm font-bold text-white/48" data-contact-email-label>البريد المهني</p>
-                  <a class="mt-1 inline-block text-xl font-black text-ice" href="mailto:admin@yahyazlab.com" data-contact-email>
+                  <a class="mt-1 inline-block text-xl font-black text-ice" href="mailto:admin@yahyazlab.com" onclick="return gtag_report_conversion('mailto:admin@yahyazlab.com');" data-contact-email>
                     admin@yahyazlab.com
                   </a>
                   <p class="geo-status mt-4 rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3 text-xs font-black leading-6 text-white/58">
@@ -1796,7 +1837,7 @@
                 </div>
                 <div class="mt-4 rounded-3xl border border-[#25D366]/25 bg-[#25D366]/10 p-5">
                   <p class="contact-whatsapp-label text-sm font-bold text-white/48">تواصل مباشر</p>
-                  <a class="contact-whatsapp mt-3" href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer">
+                  <a class="contact-whatsapp mt-3" href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer" onclick="return gtag_report_conversion('https://wa.me/628211323886');">
                     <span aria-hidden="true">☎</span>
                     <span class="contact-whatsapp-text">تواصل عبر الواتساب</span>
                   </a>
@@ -1819,7 +1860,7 @@
                     placeholder="صف الاستراتيجية أو أضف رابط فيديو يوتيوب، المنصة المطلوبة، وأي شروط خاصة لإدارة المخاطر..."
                   ></textarea>
                 </label>
-                <button class="cta-primary mt-2 w-full border-0" type="submit">إرسال طلب المشروع</button>
+                <button class="cta-primary mt-2 w-full border-0" type="submit" onclick="gtag_report_conversion();">إرسال طلب المشروع</button>
                 <p class="contact-disclosure text-center text-xs font-bold leading-6 text-white/46">
                   Note: Through YahyazLab, I strictly provide technical coding services. I will never ask for your live trading account passwords, broker credentials, or personal financial details. Your project ideas are handled with 100% confidentiality according to the Privacy Policy.
                 </p>
@@ -1849,6 +1890,7 @@
       href="https://wa.me/628211323886"
       target="_blank"
       rel="noopener noreferrer"
+      onclick="return gtag_report_conversion('https://wa.me/628211323886');"
       aria-label="تواصل عبر واتساب"
       title="تواصل عبر واتساب"
     >
@@ -2225,6 +2267,7 @@
           link.setAttribute("href", whatsappUrl);
           link.setAttribute("target", "_blank");
           link.setAttribute("rel", "noopener noreferrer");
+          link.setAttribute("onclick", `return gtag_report_conversion('${whatsappUrl}');`);
         });
       }
 
