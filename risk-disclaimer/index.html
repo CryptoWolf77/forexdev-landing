@@ -64,10 +64,65 @@
       }
 
       a:hover {
-        text-decoration: underline;
+        text-decoration: none;
+      }
+
+      .legal-topbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 26px;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid rgba(168, 239, 255, 0.2);
+        border-radius: 999px;
+        background:
+          linear-gradient(135deg, rgba(168, 239, 255, 0.1), rgba(255, 56, 111, 0.045)),
+          rgba(2, 8, 18, 0.44);
+        padding: 10px 14px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 12px 32px rgba(0, 0, 0, 0.22);
+        transition:
+          border-color 220ms ease,
+          box-shadow 220ms ease,
+          transform 220ms ease,
+          color 220ms ease;
+      }
+
+      .back-link:hover {
+        border-color: rgba(168, 239, 255, 0.55);
+        box-shadow: 0 0 26px rgba(105, 220, 255, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        transform: translateY(-2px);
+      }
+
+      .back-icon {
+        display: inline-grid;
+        width: 26px;
+        height: 26px;
+        place-items: center;
+        border-radius: 999px;
+        background: rgba(168, 239, 255, 0.14);
+        color: var(--ice);
+        line-height: 1;
+      }
+
+      html[dir="rtl"] .back-icon {
+        transform: rotate(180deg);
       }
 
       .kicker {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgba(255, 56, 111, 0.28);
+        border-radius: 999px;
+        background: rgba(255, 56, 111, 0.09);
+        box-shadow: 0 0 22px rgba(255, 56, 111, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        padding: 9px 13px;
         color: var(--plasma);
         font-size: 0.82rem;
         font-weight: 900;
@@ -93,13 +148,25 @@
         gap: 14px 22px;
         margin-top: 34px;
       }
+
+      @media (max-width: 520px) {
+        .legal-topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
     </style>
   </head>
   <body>
     <main>
       <article class="card">
-        <a class="back-link" href="/">Back to YahyazLab</a>
-        <div class="kicker">Legal Disclosure</div>
+        <div class="legal-topbar">
+          <a class="back-link" href="/">
+            <span class="back-icon" aria-hidden="true">←</span>
+            <span class="back-text">Back to YahyazLab</span>
+          </a>
+          <div class="kicker">Legal Disclosure</div>
+        </div>
         <h1>Risk Disclaimer</h1>
         <p class="legal-content">
           Financial Risk Disclaimer: Trading financial instruments, including forex, commodities, and derivatives, involves a high level of risk. The automated tools, Expert Advisors (EAs), and custom indicators developed by YahyazLab are purely technical software products designed for backtesting and educational purposes based on specifications provided by the user. Past performance of any algorithm does not guarantee future results. As an independent developer, I am not a financial broker or investment advisor. I am not responsible for any live trading decisions or financial losses. Users assume all trading risks.
@@ -118,7 +185,7 @@
           lang: "ar",
           dir: "rtl",
           back: "العودة إلى YahyazLab",
-          kicker: "إفصاح قانوني",
+          kicker: "الإفصاح القانوني",
           nav: ["سياسة الخصوصية", "شروط الخدمة", "إخلاء مسؤولية المخاطر"],
           pages: {
             risk: {
@@ -144,31 +211,39 @@
         },
       };
 
-      function getSystemLanguage() {
+      function getSelectedLanguage() {
+        const urlLanguage = new URLSearchParams(window.location.search).get("lang");
+        if (urlLanguage === "ar" || urlLanguage === "en") return urlLanguage;
         const storedLanguage = localStorage.getItem("yahyazlab-language");
         if (storedLanguage === "ar" || storedLanguage === "en") return storedLanguage;
-        const languages = navigator.languages?.length ? navigator.languages : [navigator.language || "en"];
-        return languages.some((language) => language.toLowerCase().startsWith("ar")) ? "ar" : "en";
+        const legacyStoredLanguage = localStorage.getItem("selectedLanguage");
+        if (legacyStoredLanguage === "ar" || legacyStoredLanguage === "en") return legacyStoredLanguage;
+        return "en";
       }
 
       function applyLegalLanguage(language) {
         const t = legalTranslations[language] || legalTranslations.en;
         const page = t.pages[currentPage];
+        localStorage.setItem("yahyazlab-language", t.lang);
+        localStorage.setItem("selectedLanguage", t.lang);
         document.documentElement.lang = t.lang;
         document.documentElement.dir = t.dir;
         document.body.dir = t.dir;
         document.title = `${page.title} | YahyazLab`;
         document.querySelector("meta[name='description']")?.setAttribute("content", page.content);
-        document.querySelector(".back-link").textContent = t.back;
+        document.querySelector(".back-text").textContent = t.back;
+        document.querySelector(".back-link").setAttribute("href", `/?lang=${t.lang}`);
         document.querySelector(".kicker").textContent = t.kicker;
         document.querySelector("h1").textContent = page.title;
         document.querySelector(".legal-content").textContent = page.content;
+        const legalPaths = ["/privacy-policy", "/terms-of-service", "/risk-disclaimer"];
         document.querySelectorAll("nav a").forEach((link, index) => {
           link.textContent = t.nav[index] || link.textContent;
+          link.setAttribute("href", `${legalPaths[index]}?lang=${t.lang}`);
         });
       }
 
-      applyLegalLanguage(getSystemLanguage());
+      applyLegalLanguage(getSelectedLanguage());
     </script>
   </body>
 </html>

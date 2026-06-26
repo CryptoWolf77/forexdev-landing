@@ -1744,7 +1744,8 @@
     <script>
       const currentYear = new Date().getFullYear().toString();
       const contactEmail = "admin@yahyazlab.com";
-      const whatsappUrl = "https://wa.me/628211323886";
+      const whatsappPhoneNumber = "628211323886";
+      const whatsappUrl = `https://wa.me/${whatsappPhoneNumber}`;
       const languageStorageKey = "yahyazlab-language";
       const yearElement = document.getElementById("year");
       if (yearElement) yearElement.textContent = currentYear;
@@ -2058,6 +2059,11 @@
         },
       };
 
+      function getUrlLanguage() {
+        const language = new URLSearchParams(window.location.search).get("lang");
+        return language === "ar" || language === "en" ? language : "";
+      }
+
       function setText(selector, value, root = document) {
         const element = root.querySelector(selector);
         if (element) element.textContent = value;
@@ -2071,6 +2077,14 @@
       function setAll(selector, values, root = document) {
         root.querySelectorAll(selector).forEach((element, index) => {
           if (values[index] !== undefined) element.textContent = values[index];
+        });
+      }
+
+      function normalizeWhatsAppLinks() {
+        document.querySelectorAll('a[href*="wa.me"], .whatsapp, .contact-whatsapp, .hero-primary-cta').forEach((link) => {
+          link.setAttribute("href", whatsappUrl);
+          link.setAttribute("target", "_blank");
+          link.setAttribute("rel", "noopener noreferrer");
         });
       }
 
@@ -2103,6 +2117,8 @@
 
       function applyLanguage(language) {
         const t = translations[language] || translations.ar;
+        localStorage.setItem(languageStorageKey, t.lang);
+        localStorage.setItem("selectedLanguage", t.lang);
         document.documentElement.lang = t.lang;
         document.documentElement.dir = t.dir;
         document.body.dir = t.dir;
@@ -2218,6 +2234,10 @@
         if (footerParagraphs[1]) footerParagraphs[1].textContent = t.footer[1];
         setAll("footer .legal-footer-link", t.footerLinks);
         document.querySelector("footer nav")?.setAttribute("dir", t.dir);
+        const legalPaths = ["/privacy-policy", "/terms-of-service", "/risk-disclaimer"];
+        document.querySelectorAll("footer .legal-footer-link").forEach((link, index) => {
+          link.setAttribute("href", `${legalPaths[index]}?lang=${t.lang}`);
+        });
 
         const whatsapp = document.querySelector(".whatsapp");
         whatsapp?.setAttribute("aria-label", t.whatsapp);
@@ -2231,6 +2251,7 @@
         contactWhatsapp?.setAttribute("href", whatsappUrl);
         contactWhatsapp?.setAttribute("target", "_blank");
         contactWhatsapp?.setAttribute("rel", "noopener noreferrer");
+        normalizeWhatsAppLinks();
         lightboxTitle.textContent = t.lightboxTitle;
         closeLightboxButton.setAttribute("aria-label", t.closeLightbox);
       }
@@ -2361,8 +2382,12 @@
       });
 
       function getSystemLanguage() {
+        const urlLanguage = getUrlLanguage();
+        if (urlLanguage) return urlLanguage;
         const storedLanguage = localStorage.getItem(languageStorageKey);
         if (storedLanguage === "ar" || storedLanguage === "en") return storedLanguage;
+        const legacyStoredLanguage = localStorage.getItem("selectedLanguage");
+        if (legacyStoredLanguage === "ar" || legacyStoredLanguage === "en") return legacyStoredLanguage;
         const languages = window.navigator?.languages?.length ? window.navigator.languages : [window.navigator?.language || "en"];
         const primaryLanguage = (languages[0] || "en").toLowerCase();
         return primaryLanguage.startsWith("ar") ? "ar" : "en";
