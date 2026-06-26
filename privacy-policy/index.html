@@ -1,0 +1,174 @@
+﻿<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta
+      name="description"
+      content="Privacy Policy for YahyazLab, an independent freelance software development brand based in Oman."
+    />
+    <title>Privacy Policy | YahyazLab</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --frost: #69dcff;
+        --ice: #a8efff;
+        --plasma: #ff386f;
+        --bg: #02040b;
+        --panel: rgba(5, 13, 29, 0.78);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background:
+          radial-gradient(circle at 14% 8%, rgba(255, 56, 111, 0.14), transparent 24rem),
+          radial-gradient(circle at 82% 10%, rgba(105, 220, 255, 0.18), transparent 30rem),
+          linear-gradient(135deg, var(--bg) 0%, #071326 48%, var(--bg) 100%);
+        color: #eefbff;
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        text-align: left;
+      }
+
+      html[dir="rtl"] body {
+        text-align: right;
+      }
+
+      main {
+        width: min(980px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 56px 0;
+      }
+
+      .card {
+        border: 1px solid rgba(168, 239, 255, 0.2);
+        border-radius: 28px;
+        background: var(--panel);
+        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        padding: clamp(24px, 5vw, 48px);
+      }
+
+      a {
+        color: var(--ice);
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .kicker {
+        color: var(--plasma);
+        font-size: 0.82rem;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 14px 0 22px;
+        font-size: clamp(2rem, 5vw, 4rem);
+        line-height: 1.18;
+      }
+
+      p {
+        color: rgba(238, 251, 255, 0.76);
+        font-size: 1.08rem;
+        line-height: 1.9;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px 22px;
+        margin-top: 34px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <article class="card">
+        <a class="back-link" href="/">Back to YahyazLab</a>
+        <div class="kicker">Legal Disclosure</div>
+        <h1>Privacy Policy</h1>
+        <p class="legal-content">
+          Privacy Policy: As an independent developer operating YahyazLab, I highly value your privacy. I strictly do not collect, store, or request any sensitive personal data, trading account credentials, passwords, or financial payment details. Any project specifications or source codes shared for development remain 100% confidential and secure.
+        </p>
+        <nav aria-label="Legal pages">
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms-of-service">Terms of Service</a>
+          <a href="/risk-disclaimer">Risk Disclaimer</a>
+        </nav>
+      </article>
+    </main>
+    <script>
+      const currentPage = "privacy";
+      const legalTranslations = {
+        ar: {
+          lang: "ar",
+          dir: "rtl",
+          back: "العودة إلى YahyazLab",
+          kicker: "إفصاح قانوني",
+          nav: ["سياسة الخصوصية", "شروط الخدمة", "إخلاء مسؤولية المخاطر"],
+          pages: {
+            privacy: {
+              title: "سياسة الخصوصية",
+              content:
+                "سياسة الخصوصية: كمطور مستقل يدير YahyazLab، فإنني أولي أهمية قصوى لخصوصيتك. أنا لا أقوم مطلقاً بجمع أو تخزين أو طلب أي بيانات شخصية حساسة، أو بيانات اعتماد حسابات التداول، أو كلمات المرور، أو تفاصيل الدفع المالي. أي مواصفات للمشاريع أو أكواد برمجية (Source Codes) يتم مشاركتها بغرض التطوير تظل سرية وآمنة بنسبة 100%.",
+            },
+          },
+        },
+        en: {
+          lang: "en",
+          dir: "ltr",
+          back: "Back to YahyazLab",
+          kicker: "Legal Disclosure",
+          nav: ["Privacy Policy", "Terms of Service", "Risk Disclaimer"],
+          pages: {
+            privacy: {
+              title: "Privacy Policy",
+              content:
+                "Privacy Policy: As an independent developer operating YahyazLab, I highly value your privacy. I strictly do not collect, store, or request any sensitive personal data, trading account credentials, passwords, or financial payment details. Any project specifications or source codes shared for development remain 100% confidential and secure.",
+            },
+          },
+        },
+      };
+
+      function getSystemLanguage() {
+        const storedLanguage = localStorage.getItem("yahyazlab-language");
+        if (storedLanguage === "ar" || storedLanguage === "en") return storedLanguage;
+        const languages = navigator.languages?.length ? navigator.languages : [navigator.language || "en"];
+        return languages.some((language) => language.toLowerCase().startsWith("ar")) ? "ar" : "en";
+      }
+
+      function applyLegalLanguage(language) {
+        const t = legalTranslations[language] || legalTranslations.en;
+        const page = t.pages[currentPage];
+        document.documentElement.lang = t.lang;
+        document.documentElement.dir = t.dir;
+        document.body.dir = t.dir;
+        document.title = `${page.title} | YahyazLab`;
+        document.querySelector("meta[name='description']")?.setAttribute("content", page.content);
+        document.querySelector(".back-link").textContent = t.back;
+        document.querySelector(".kicker").textContent = t.kicker;
+        document.querySelector("h1").textContent = page.title;
+        document.querySelector(".legal-content").textContent = page.content;
+        document.querySelectorAll("nav a").forEach((link, index) => {
+          link.textContent = t.nav[index] || link.textContent;
+        });
+      }
+
+      applyLegalLanguage(getSystemLanguage());
+    </script>
+  </body>
+</html>

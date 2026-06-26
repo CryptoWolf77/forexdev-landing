@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="utf-8" />
@@ -6,9 +6,9 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <meta
       name="description"
-      content="مختبر يحيى لهندسة أتمتة التداول: بوتات تداول، إكسبيرتات، مؤشرات مخصصة، وأدوات متقدمة لمنصات ميتاتريدر وتريدنغ فيو."
+      content="YahyazLab لهندسة أتمتة التداول: بوتات تداول، إكسبيرتات، مؤشرات مخصصة، وأدوات متقدمة لمنصات ميتاتريدر وتريدنغ فيو."
     />
-    <title>مختبر يحيى | هندسة أتمتة التداول</title>
+    <title>YahyazLab | هندسة أتمتة التداول</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -212,37 +212,166 @@
 
       .cta-primary,
       .cta-secondary {
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: 10px;
         min-height: 54px;
-        border-radius: 16px;
+        border-radius: 18px;
         padding: 0 24px;
         font-weight: 800;
+        line-height: 1.35;
         transition:
-          transform 220ms ease,
-          border-color 220ms ease,
-          box-shadow 220ms ease,
-          background 220ms ease;
+          transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 260ms cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
+          background 260ms cubic-bezier(0.16, 1, 0.3, 1),
+          color 260ms cubic-bezier(0.16, 1, 0.3, 1);
+        transform: translateZ(0);
       }
 
       .cta-primary {
         color: #03101a;
-        background: linear-gradient(135deg, #a8efff, #69dcff 48%, #ff5b86);
+        border: 1px solid rgba(238, 251, 255, 0.38);
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.58), transparent 32%),
+          linear-gradient(120deg, #a8efff 0%, #69dcff 43%, #ff5b86 100%);
         box-shadow:
-          0 0 22px rgba(105, 220, 255, 0.44),
-          0 16px 42px rgba(255, 56, 111, 0.2);
+          0 0 0 1px rgba(105, 220, 255, 0.18),
+          0 0 28px rgba(105, 220, 255, 0.5),
+          0 18px 52px rgba(255, 56, 111, 0.24),
+          inset 0 1px 0 rgba(255, 255, 255, 0.52),
+          inset 0 -10px 22px rgba(3, 16, 26, 0.12);
       }
 
       .cta-secondary {
-        border: 1px solid rgba(168, 239, 255, 0.28);
-        color: #e9fbff;
-        background: rgba(8, 22, 43, 0.54);
+        border: 1px solid rgba(168, 239, 255, 0.36);
+        color: #eefbff;
+        background:
+          linear-gradient(135deg, rgba(168, 239, 255, 0.09), rgba(255, 56, 111, 0.035)),
+          rgba(8, 22, 43, 0.62);
+        box-shadow:
+          0 0 0 1px rgba(105, 220, 255, 0.06),
+          0 16px 40px rgba(0, 0, 0, 0.22),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .hero-cta-focus .cta-primary::before,
+      .hero-cta-focus .cta-secondary::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 260ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .hero-cta-focus .cta-primary::before {
+        background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.62) 44%, transparent 58%);
+        transform: translateX(-115%);
+      }
+
+      .hero-cta-focus .cta-secondary::before {
+        background:
+          radial-gradient(circle at 20% 20%, rgba(105, 220, 255, 0.22), transparent 38%),
+          radial-gradient(circle at 88% 80%, rgba(255, 56, 111, 0.16), transparent 40%);
+      }
+
+      .hero-cta-focus .cta-primary::after,
+      .hero-cta-focus .cta-secondary::after {
+        display: inline-grid;
+        width: 28px;
+        height: 28px;
+        flex: 0 0 28px;
+        place-items: center;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        line-height: 1;
+        transition:
+          transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+          background 260ms cubic-bezier(0.16, 1, 0.3, 1),
+          color 260ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .hero-cta-focus .cta-primary::after {
+        content: "↗";
+        color: #03101a;
+        background: rgba(255, 255, 255, 0.42);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+      }
+
+      .hero-cta-focus .cta-secondary::after {
+        content: "↓";
+        border: 1px solid rgba(168, 239, 255, 0.24);
+        color: #a8efff;
+        background: rgba(168, 239, 255, 0.08);
       }
 
       .cta-primary:hover,
       .cta-secondary:hover {
-        transform: translateY(-4px);
+        transform: translate3d(0, -4px, 0);
+      }
+
+      .cta-primary:hover {
+        box-shadow:
+          0 0 0 1px rgba(238, 251, 255, 0.22),
+          0 0 38px rgba(105, 220, 255, 0.66),
+          0 24px 66px rgba(255, 56, 111, 0.34),
+          inset 0 1px 0 rgba(255, 255, 255, 0.64),
+          inset 0 -10px 22px rgba(3, 16, 26, 0.1);
+      }
+
+      .cta-secondary:hover {
+        border-color: rgba(168, 239, 255, 0.66);
+        color: #ffffff;
+        background:
+          linear-gradient(135deg, rgba(168, 239, 255, 0.14), rgba(255, 56, 111, 0.07)),
+          rgba(9, 24, 48, 0.76);
+        box-shadow:
+          0 0 0 1px rgba(105, 220, 255, 0.14),
+          0 0 30px rgba(105, 220, 255, 0.24),
+          0 20px 54px rgba(0, 0, 0, 0.28),
+          inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      }
+
+      .hero-cta-focus .cta-primary:hover::before,
+      .hero-cta-focus .cta-secondary:hover::before {
+        opacity: 1;
+      }
+
+      .hero-cta-focus .cta-primary:hover::before {
+        animation: buttonShine 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .hero-cta-focus .cta-primary:hover::after,
+      .hero-cta-focus .cta-secondary:hover::after {
+        transform: translateX(-2px);
+      }
+
+      html[dir="ltr"] .hero-cta-focus .cta-primary:hover::after,
+      html[dir="ltr"] .hero-cta-focus .cta-secondary:hover::after {
+        transform: translateX(2px);
+      }
+
+      .hero-cta-focus .cta-primary,
+      .hero-cta-focus .cta-secondary {
+        min-height: 62px;
+        padding: 0 28px;
+        text-align: center;
+        max-width: 100%;
+        width: 100%;
+        flex: 0 0 auto;
+      }
+
+      .hero-cta-focus .cta-primary {
+        min-width: min(100%, 300px);
+      }
+
+      .hero-cta-focus .cta-secondary {
+        min-width: min(100%, 216px);
       }
 
       .hero-cascade {
@@ -253,6 +382,8 @@
       }
 
       .hero-cta-focus {
+        align-items: stretch;
+        max-width: min(100%, 660px);
         transform: translate3d(0, -20px, 0) scale(0.95);
         animation: heroCtaFocus 0.78s cubic-bezier(0.16, 1, 0.3, 1) var(--hero-delay, 0ms) forwards;
       }
@@ -260,6 +391,21 @@
       .hero-primary-cta {
         animation: ctaFloat 3.4s ease-in-out 1.35s infinite;
         will-change: transform;
+      }
+
+      @media (min-width: 640px) {
+        .hero-cta-focus .cta-primary,
+        .hero-cta-focus .cta-secondary {
+          width: auto;
+        }
+
+        .hero-cta-focus .cta-primary {
+          flex: 1 1 320px;
+        }
+
+        .hero-cta-focus .cta-secondary {
+          flex: 1 1 220px;
+        }
       }
 
       .platform-card {
@@ -656,6 +802,91 @@
         box-shadow: 0 0 24px rgba(105, 220, 255, 0.42);
       }
 
+      .fair-policy-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(168, 239, 255, 0.18);
+        background:
+          radial-gradient(circle at 12% 0%, rgba(105, 220, 255, 0.16), transparent 24rem),
+          radial-gradient(circle at 88% 18%, rgba(255, 56, 111, 0.12), transparent 22rem),
+          rgba(5, 13, 29, 0.72);
+        box-shadow:
+          0 28px 90px rgba(0, 0, 0, 0.34),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .fair-policy-item {
+        overflow: hidden;
+        border: 1px solid rgba(168, 239, 255, 0.15);
+        border-radius: 22px;
+        background: rgba(2, 8, 18, 0.42);
+        transition:
+          border-color 260ms cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
+          background 260ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .fair-policy-item:hover,
+      .fair-policy-item.is-open {
+        border-color: rgba(105, 220, 255, 0.48);
+        background: rgba(8, 22, 43, 0.58);
+        box-shadow:
+          0 16px 48px rgba(0, 0, 0, 0.22),
+          0 0 34px rgba(105, 220, 255, 0.16);
+      }
+
+      .fair-policy-trigger {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 20px;
+        color: #eefbff;
+        text-align: inherit;
+        transition: color 220ms ease;
+      }
+
+      .fair-policy-trigger:hover,
+      .fair-policy-item.is-open .fair-policy-trigger {
+        color: #a8efff;
+      }
+
+      .fair-policy-arrow {
+        display: inline-flex;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(168, 239, 255, 0.2);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.06);
+        color: #a8efff;
+        transition:
+          transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 220ms ease,
+          box-shadow 220ms ease;
+      }
+
+      .fair-policy-item.is-open .fair-policy-arrow {
+        border-color: rgba(105, 220, 255, 0.58);
+        box-shadow: 0 0 20px rgba(105, 220, 255, 0.22);
+        transform: rotate(180deg);
+      }
+
+      .fair-policy-panel {
+        height: 0;
+        overflow: hidden;
+        transition: height 420ms cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: height;
+      }
+
+      .fair-policy-panel-inner {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 0 20px 22px;
+      }
+
       .input-field {
         width: 100%;
         border: 1px solid rgba(168, 239, 255, 0.18);
@@ -678,6 +909,30 @@
         border-color: rgba(105, 220, 255, 0.72);
         background: rgba(3, 11, 24, 0.82);
         box-shadow: 0 0 0 4px rgba(105, 220, 255, 0.12);
+      }
+
+      .compliance-notice {
+        border: 1px solid rgba(168, 239, 255, 0.2);
+        border-radius: 22px;
+        background:
+          linear-gradient(135deg, rgba(105, 220, 255, 0.08), rgba(255, 56, 111, 0.06)),
+          rgba(2, 8, 18, 0.48);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.08),
+          0 16px 46px rgba(0, 0, 0, 0.24);
+      }
+
+      .legal-footer-link {
+        color: rgba(238, 251, 255, 0.68);
+        font-weight: 800;
+        transition:
+          color 180ms ease,
+          text-shadow 180ms ease;
+      }
+
+      .legal-footer-link:hover {
+        color: #a8efff;
+        text-shadow: 0 0 18px rgba(105, 220, 255, 0.34);
       }
 
       .whatsapp {
@@ -770,6 +1025,15 @@
         }
         50% {
           box-shadow: 0 0 46px rgba(255, 56, 111, 0.32);
+        }
+      }
+
+      @keyframes buttonShine {
+        from {
+          transform: translateX(-115%);
+        }
+        to {
+          transform: translateX(115%);
         }
       }
 
@@ -957,16 +1221,16 @@
 
     <header class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/70 backdrop-blur-2xl">
       <nav class="lab-shell flex h-20 items-center justify-between gap-4">
-        <a href="#top" class="flex items-center gap-3" aria-label="مختبر يحيى">
+        <a href="#top" class="flex items-center gap-3" aria-label="YahyazLab">
           <img
             src="assets/yahyaz-lab-logo.png"
-            alt="شعار مختبر يحيى"
+            alt="شعار YahyazLab"
             class="logo-mark h-12 w-auto max-w-[150px] object-contain sm:h-14 sm:max-w-[190px]"
           />
         </a>
         <div class="hidden items-center gap-8 text-sm font-bold lg:flex">
           <a class="nav-link" href="#youtube">من الفكرة للبوت</a>
-          <a class="nav-link" href="#about">من نكون</a>
+          <a class="nav-link" href="#about">المطور</a>
           <a class="nav-link" href="#portfolio">الأعمال</a>
           <a class="nav-link" href="#pricing">الباقات</a>
           <a class="nav-link" href="#workflow">الرحلة</a>
@@ -990,16 +1254,15 @@
           <div class="reveal">
             <div class="section-kicker hero-cascade mb-7" style="--hero-delay: 60ms">مختبر هندسة التداول الآلي</div>
             <h1 class="hero-title hero-cascade max-w-4xl overflow-visible pb-3 text-4xl font-black leading-[1.3] sm:text-5xl lg:text-6xl" style="--hero-delay: 180ms">
-              جسرك لأتمتة التداول.. حوّل استراتيجيتك المخصصة إلى
-              <span class="ice-text">مؤشرات وبوتات حقيقية</span>
+              حوّل استراتيجيتك إلى بوت تداول آلي ومؤشر مخصص..
+              <span class="ice-text">واختبره قبل الدفع</span>
             </h1>
             <p class="hero-cascade mt-7 max-w-2xl text-lg leading-9 text-white/74 sm:text-xl" style="--hero-delay: 300ms">
-              ابدأ بتطوير مؤشرك الخاص المزود بإشارات صفقات واضحة، وحوّل أي منطق تداول (سواء كان فكرة شخصية أو استراتيجية من اليوتيوب وغيره)
-              إلى بوت تداول خوارزمي متكامل ومؤمن بالكامل لإدارة مخاطرك.
+              في YahyazLab، أقدّم هندسة برمجية دقيقة لأتمتة صفقاتك على منصات MT4، MT5، وTradingView. شاركني شروط استراتيجيتك المكتوبة أو المرئية، وسأمنحك نسخة تجريبية لـ 3 أيام لتتأكد من دقة الأداء بنفسك.
             </p>
-            <div class="hero-cascade hero-cta-focus mt-9 flex flex-col gap-4 sm:flex-row" style="--hero-delay: 430ms">
-              <a href="#contact" class="cta-primary hero-primary-cta">ابدأ رحلة الأتمتة الآن</a>
-              <a href="#pricing" class="cta-secondary">استكشف خدماتنا</a>
+            <div class="hero-cascade hero-cta-focus mt-10 mb-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:mb-4" style="--hero-delay: 430ms">
+              <a href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer" class="cta-primary hero-primary-cta">ابدأ برمجة استراتيجيتك الآن (واتساب)</a>
+              <a href="#fair-use-policy" class="cta-secondary">اطلع على سياسة الاختبار العادل</a>
             </div>
             <div class="hero-cascade mt-10 grid max-w-2xl grid-cols-3 gap-3 text-center" style="--hero-delay: 560ms">
               <div class="platform-card glass rounded-2xl p-4">
@@ -1022,7 +1285,7 @@
             <div class="glass glow-border floaty relative rounded-[2rem] p-5 sm:p-7">
               <img
                 src="assets/yahyaz-lab-logo.png"
-                alt="شعار مختبر يحيى"
+                alt="شعار YahyazLab"
                 class="logo-mark mx-auto w-full max-w-[520px] object-contain"
               />
               <div class="mt-6 rounded-3xl border border-white/10 bg-black/35 p-5">
@@ -1082,7 +1345,7 @@
                 <div class="section-kicker mb-5">من مشاهدة إلى أتمتة</div>
                 <h2 class="text-3xl font-black leading-tight sm:text-5xl">هل شاهدت استراتيجية ذهبية على يوتيوب؟</h2>
                 <p class="mt-6 text-lg leading-9 text-white/70">
-                  حوّلها الآن إلى بوت تداول (EA) أو مؤشر حصري يحمل اسمك. نحن نحلل الفيديو، نصمم المنطق، ونبرمج
+                  أحوّلها الآن إلى بوت تداول (EA) أو مؤشر حصري يحمل اسمك. أحلل الفيديو، وأصمم المنطق، وأبرمج
                   البوت بدقة ليعمل على منصتك المفضلة، ليصبح منتجك الخاص الذي يتداول نيابة عنك.
                 </p>
               </div>
@@ -1148,13 +1411,15 @@
           </div>
           <div class="reveal">
             <div class="section-kicker mb-5">الخبرة التي تقود الكود</div>
-            <h2 class="text-3xl font-black leading-tight sm:text-5xl">من نكون في Yahyaz Lab؟</h2>
+            <h2 class="text-3xl font-black leading-tight sm:text-5xl">من يقف وراء YahyazLab؟</h2>
             <p class="mt-7 text-lg leading-9 text-white/72">
-              نحن لسنا مجرد مبرمجين، بل نحن مهندسو استراتيجيات التداول. بخبرة ميدانية تمتد لسنوات طويلة في تحليل
-              الأسواق وصقل الخوارزميات، نجمع بين المعرفة العميقة بأسواق المال والاحترافية البرمجية الدقيقة.
-              نحن نتجاوز مجرد كتابة الكود إلى هندسة الربحية وتأمين رأس المال. ثق في خبرتنا لتكون جسرك نحو تداول
-              آلي ناجح ومستدام.
+              لستُ مجرد كاتب أكواد تقليدي، بل أنا مطور برمجيات متخصص في هندسة وأتمتة استراتيجيات التداول. بخبرة تقنية ترتكز على فهم آليات الأسواق وصقل الخوارزميات، أدمج بين المهارة البرمجية الدقيقة وبناء الأدوات الرقمية المتقدمة. يتجاوز دوري مجرد صياغة الكود إلى تحويل منطقك التجاري الخاص واستراتيجيتك اليدوية إلى أدوات تداول آلي متينة، عالية الكفاءة، ومنفذة بدقة متناهية. ثق في خبرتي التقنية وشغفي بالبرمجة لتكون الجسر الحقيقي الذي ينقل أفكارك إلى عالم الأتمتة المستدامة.
             </p>
+            <div class="compliance-notice about-notice mt-8 p-5">
+              <p class="about-notice-text text-sm font-bold leading-7 text-white/66">
+                Important Notice: YahyazLab is the professional brand of an independent freelance software developer. I specialize strictly in custom programming, indicator conversion, and automation services for MetaTrader (MQL4/MQL5) and TradingView (Pine Script) based on direct customer specifications. YahyazLab is not a financial broker, trading platform, or investment advisory firm. I do not manage client funds, facilitate live trading, or provide investment advice.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -1163,7 +1428,7 @@
         <div class="lab-shell">
           <div class="reveal max-w-3xl">
             <div class="section-kicker mb-5">نماذج بصرية</div>
-            <h2 class="text-3xl font-black leading-tight sm:text-5xl">أمثلة على أعمالنا</h2>
+            <h2 class="text-3xl font-black leading-tight sm:text-5xl">أمثلة على أعمالي</h2>
           </div>
           <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             <article class="tilt-card glass reveal rounded-[1.8rem] p-5">
@@ -1268,7 +1533,7 @@
         <div class="lab-shell">
           <div class="reveal text-center">
             <div class="section-kicker mb-5">من الفكرة إلى التسليم</div>
-            <h2 class="text-3xl font-black leading-tight sm:text-5xl">رحلتك نحو الأتمتة معنا</h2>
+            <h2 class="text-3xl font-black leading-tight sm:text-5xl">رحلة مشروعك نحو الأتمتة</h2>
           </div>
           <div class="relative mt-14 grid gap-6 lg:grid-cols-4">
             <div class="step-line absolute left-1/2 top-12 hidden h-1 w-[74%] -translate-x-1/2 rounded-full lg:block"></div>
@@ -1280,17 +1545,105 @@
             <div class="workflow-card glass reveal relative rounded-[1.6rem] p-6 text-center">
               <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-plasma text-2xl font-black text-white shadow-plasma">2</div>
               <h3 class="mt-5 text-xl font-black">تحليل المنطق</h3>
-              <p class="mt-3 leading-7 text-white/58">نفكك شروط الدخول والخروج وإدارة رأس المال بدقة هندسية.</p>
+              <p class="mt-3 leading-7 text-white/58">أفكك شروط الدخول والخروج وإدارة رأس المال بدقة هندسية.</p>
             </div>
             <div class="workflow-card glass reveal relative rounded-[1.6rem] p-6 text-center">
               <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-frost text-2xl font-black text-ink shadow-frost">3</div>
               <h3 class="mt-5 text-xl font-black">البرمجة والاختبار</h3>
-              <p class="mt-3 leading-7 text-white/58">نبني البوت أو المؤشر ونختبر السلوك تاريخياً وعلى سيناريوهات متعددة.</p>
+              <p class="mt-3 leading-7 text-white/58">أبني البوت أو المؤشر وأختبر السلوك تاريخياً وعلى سيناريوهات متعددة.</p>
             </div>
             <div class="workflow-card glass reveal relative rounded-[1.6rem] p-6 text-center">
               <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-plasma text-2xl font-black text-white shadow-plasma">4</div>
               <h3 class="mt-5 text-xl font-black">التسليم والدعم</h3>
               <p class="mt-3 leading-7 text-white/58">تحصل على ملفات العمل وشرح الإعدادات ودعم ما بعد التسليم.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="fair-use-policy" class="pb-24 pt-2 sm:pb-28">
+        <div class="lab-shell">
+          <div class="fair-policy-card glow-border reveal rounded-[2rem] p-6 sm:p-10" dir="rtl">
+            <div class="mx-auto max-w-4xl text-center">
+              <div class="section-kicker mb-5">سياسة الاختبار</div>
+              <h2 class="fair-policy-title text-3xl font-black leading-tight sm:text-5xl">
+                ⚖️ سياسة الاستخدام العادل للاختبار والبرمجة التجريبية
+              </h2>
+              <p class="fair-policy-subtitle mx-auto mt-6 max-w-3xl text-lg leading-9 text-white/68">
+                أؤمن في YahyazLab بتقديم أعلى مستويات الشفافية وبناء الثقة. لذلك، أتيح لك تجربة استراتيجيتك برمجياً قبل الدفع التام وفق الشروط التقنية التالية:
+              </p>
+            </div>
+
+            <div class="fair-policy-list mt-10 grid gap-4">
+              <div class="fair-policy-item">
+                <button class="fair-policy-trigger" type="button" aria-expanded="false" aria-controls="fair-policy-panel-1">
+                  <span class="fair-policy-item-title text-lg font-black sm:text-xl">1. بيئة التشغيل التجريبية</span>
+                  <span class="fair-policy-arrow" aria-hidden="true">⌄</span>
+                </button>
+                <div class="fair-policy-panel" id="fair-policy-panel-1">
+                  <div class="fair-policy-panel-inner">
+                    <p class="fair-policy-item-body leading-8 text-white/68">
+                      النسخة التجريبية مصممة ومبرمجة لتعمل فقط على الحسابات التجريبية (Demo Accounts). ويُحظر برمجياً تشغيلها أو تفعيلها على أي حساب حقيقي (Live Account).
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fair-policy-item">
+                <button class="fair-policy-trigger" type="button" aria-expanded="false" aria-controls="fair-policy-panel-2">
+                  <span class="fair-policy-item-title text-lg font-black sm:text-xl">2. الصلاحية الزمنية</span>
+                  <span class="fair-policy-arrow" aria-hidden="true">⌄</span>
+                </button>
+                <div class="fair-policy-panel" id="fair-policy-panel-2">
+                  <div class="fair-policy-panel-inner">
+                    <p class="fair-policy-item-body leading-8 text-white/68">
+                      تنتهي صلاحية الأداة أو البوت تلقائياً بعد مرور (3 أيام / 72 ساعة) من وقت التسليم. ويتوقف الكود عن العمل تماماً دون أي إشعار مسبق.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fair-policy-item">
+                <button class="fair-policy-trigger" type="button" aria-expanded="false" aria-controls="fair-policy-panel-3">
+                  <span class="fair-policy-item-title text-lg font-black sm:text-xl">3. تجميد المنطق البرمجي (Logic Freeze)</span>
+                  <span class="fair-policy-arrow" aria-hidden="true">⌄</span>
+                </button>
+                <div class="fair-policy-panel" id="fair-policy-panel-3">
+                  <div class="fair-policy-panel-inner">
+                    <p class="fair-policy-item-body leading-8 text-white/68">
+                      يتم الاتفاق على شروط الدخول والخروج ومؤشرات الاستراتيجية بدقة قبل البدء في البرمجة. فترة الـ 3 أيام مخصصة 'فقط' للتأكد من مطابقة البوت للشروط المتفق عليها، ولا يحق للعميل طلب تعديل اللوجيك أو إضافة ميزات جديدة مجاناً أثناء أو بعد فترة التجربة.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fair-policy-item">
+                <button class="fair-policy-trigger" type="button" aria-expanded="false" aria-controls="fair-policy-panel-4">
+                  <span class="fair-policy-item-title text-lg font-black sm:text-xl">4. حقوق الملكية الفكرية والأكواد</span>
+                  <span class="fair-policy-arrow" aria-hidden="true">⌄</span>
+                </button>
+                <div class="fair-policy-panel" id="fair-policy-panel-4">
+                  <div class="fair-policy-panel-inner">
+                    <p class="fair-policy-item-body leading-8 text-white/68">
+                      الكود المصدري المفتوح (Source Code) والنسخة الدائمة غير المحدودة هي ملك حصري لـ YahyazLab خلال فترة التطوير والاختبار، ويتم نقل كامل صلاحيات الملكية البرمجية للعميل فور إتمام تحويل المبلغ المتفق عليه كاملاً بعملة الـ <span dir="ltr" class="inline-block">USDT</span>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="fair-policy-item">
+                <button class="fair-policy-trigger" type="button" aria-expanded="false" aria-controls="fair-policy-panel-5">
+                  <span class="fair-policy-item-title text-lg font-black sm:text-xl">🔒 5. سرية الاستراتيجيات وضمان عدم البيع (NDA)</span>
+                  <span class="fair-policy-arrow" aria-hidden="true">⌄</span>
+                </button>
+                <div class="fair-policy-panel" id="fair-policy-panel-5">
+                  <div class="fair-policy-panel-inner">
+                    <p class="fair-policy-item-body leading-8 text-white/68">
+                      ألتزم في YahyazLab بالسرية المطلقة تجاه تفاصيل منطق التداول (Trading Logic) الخاص بالعميل. الأداة أو البوت المطور يُعد ملكاً فكرياً وحصرياً لصاحبه فقط، وأضمن بشكل قاطع عدم إعادة بيع الأكواد، أو مشاركتها، أو استغلال الاستراتيجية تجارياً مع أي طرف ثالث تحت أي ظرف من الظروف.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1302,15 +1655,18 @@
             <div class="grid gap-10 lg:grid-cols-[.86fr_1.14fr]">
               <div>
                 <div class="section-kicker mb-5">ابدأ المشروع</div>
-                <h2 class="text-3xl font-black leading-tight sm:text-5xl">احك لنا عن فكرتك، ودع الباقي علينا</h2>
+                <h2 class="text-3xl font-black leading-tight sm:text-5xl">احك لي عن فكرتك، ودع الباقي عليّ</h2>
                 <p class="mt-6 text-lg leading-9 text-white/68">
-                  أرسل وصف المشروع أو رابط فيديو يوتيوب للاستراتيجية، وسنعود إليك بتصور عملي وخطوات تنفيذ واضحة.
+                  أرسل وصف المشروع أو رابط فيديو يوتيوب للاستراتيجية، وسأعود إليك بتصور عملي وخطوات تنفيذ واضحة.
                 </p>
                 <div class="mt-8 rounded-3xl border border-frost/20 bg-frost/10 p-5">
                   <p class="text-sm font-bold text-white/48" data-contact-email-label>البريد المهني</p>
                   <a class="mt-1 inline-block text-xl font-black text-ice" href="mailto:admin@yahyazlab.com" data-contact-email>
                     admin@yahyazlab.com
                   </a>
+                  <p class="geo-status mt-4 rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3 text-xs font-black leading-6 text-white/58">
+                    Geographic Status: Independent Freelance Developer Based in Oman
+                  </p>
                 </div>
                 <div class="mt-4 rounded-3xl border border-[#25D366]/25 bg-[#25D366]/10 p-5">
                   <p class="contact-whatsapp-label text-sm font-bold text-white/48">تواصل مباشر</p>
@@ -1338,6 +1694,9 @@
                   ></textarea>
                 </label>
                 <button class="cta-primary mt-2 w-full border-0" type="submit">إرسال طلب المشروع</button>
+                <p class="contact-disclosure text-center text-xs font-bold leading-6 text-white/46">
+                  Note: Through YahyazLab, I strictly provide technical coding services. I will never ask for your live trading account passwords, broker credentials, or personal financial details. Your project ideas are handled with 100% confidentiality according to the Privacy Policy.
+                </p>
               </form>
             </div>
           </div>
@@ -1346,8 +1705,15 @@
     </main>
 
     <footer class="border-t border-white/10 py-8">
-      <div class="lab-shell flex flex-col items-center justify-between gap-4 text-center text-sm text-white/42 sm:flex-row">
-        <p>© <span id="year"></span> مختبر يحيى. جميع الحقوق محفوظة.</p>
+      <div class="lab-shell flex flex-col items-center justify-between gap-4 text-center text-sm text-white/42 lg:flex-row">
+        <div class="grid gap-3">
+          <p>© 2026 YahyazLab. All rights reserved.</p>
+          <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2" aria-label="Legal links">
+            <a class="legal-footer-link" href="/privacy-policy">Privacy Policy</a>
+            <a class="legal-footer-link" href="/terms-of-service">Terms of Service</a>
+            <a class="legal-footer-link" href="/risk-disclaimer">Risk Disclaimer</a>
+          </nav>
+        </div>
         <p>ميتاتريدر ٤ · ميتاتريدر ٥ · تريدنغ فيو · باين سكريبت</p>
       </div>
     </footer>
@@ -1379,25 +1745,27 @@
       const currentYear = new Date().getFullYear().toString();
       const contactEmail = "admin@yahyazlab.com";
       const whatsappUrl = "https://wa.me/628211323886";
-      document.getElementById("year").textContent = currentYear;
+      const languageStorageKey = "yahyazlab-language";
+      const yearElement = document.getElementById("year");
+      if (yearElement) yearElement.textContent = currentYear;
 
       const translations = {
         ar: {
           lang: "ar",
           dir: "rtl",
-          pageTitle: "مختبر يحيى | هندسة أتمتة التداول",
+          pageTitle: "YahyazLab | هندسة أتمتة التداول",
           metaDescription:
-            "مختبر يحيى لهندسة أتمتة التداول: بوتات تداول، إكسبيرتات، مؤشرات مخصصة، وأدوات متقدمة لمنصات ميتاتريدر وتريدنغ فيو.",
-          logoAlt: "شعار مختبر يحيى",
+            "YahyazLab لهندسة أتمتة التداول: بوتات تداول، إكسبيرتات، مؤشرات مخصصة، وأدوات متقدمة لمنصات ميتاتريدر وتريدنغ فيو.",
+          logoAlt: "شعار YahyazLab",
           langLabel: "اختيار اللغة",
-          nav: ["من الفكرة للبوت", "من نكون", "الأعمال", "الباقات", "الرحلة", "تواصل"],
+          nav: ["من الفكرة للبوت", "المطور", "الأعمال", "الباقات", "الرحلة", "تواصل"],
           headerCta: "طلب استشارة",
           heroKicker: "مختبر هندسة التداول الآلي",
-          heroTitle: "جسرك لأتمتة التداول.. حوّل استراتيجيتك المخصصة إلى مؤشرات وبوتات حقيقية",
+          heroTitle: "حوّل استراتيجيتك إلى بوت تداول آلي ومؤشر مخصص.. واختبره قبل الدفع",
           heroSubtitle:
-            "ابدأ بتطوير مؤشرك الخاص المزود بإشارات صفقات واضحة، وحوّل أي منطق تداول (سواء كان فكرة شخصية أو استراتيجية من اليوتيوب وغيره) إلى بوت تداول خوارزمي متكامل ومؤمن بالكامل لإدارة مخاطرك.",
-          heroPrimary: "ابدأ رحلة الأتمتة الآن",
-          heroSecondary: "استكشف خدماتنا",
+            "في YahyazLab، أقدّم هندسة برمجية دقيقة لأتمتة صفقاتك على منصات MT4، MT5، وTradingView. شاركني شروط استراتيجيتك المكتوبة أو المرئية، وسأمنحك نسخة تجريبية لـ 3 أيام لتتأكد من دقة الأداء بنفسك.",
+          heroPrimary: "ابدأ برمجة استراتيجيتك الآن (واتساب)",
+          heroSecondary: "اطلع على سياسة الاختبار العادل",
           heroStats: ["إكسبيرتات آلية", "بوتات وإشارات", "تريدنغ فيو"],
           engineLabel: "محرك الأتمتة",
           engineRows: ["إشارة دخول مؤكدة", "مفعّل", "إدارة المخاطر", "مفعّل", "تنفيذ آلي", "مفعّل"],
@@ -1418,15 +1786,17 @@
           youtubeKicker: "من مشاهدة إلى أتمتة",
           youtubeTitle: "هل شاهدت استراتيجية ذهبية على يوتيوب؟",
           youtubeText:
-            "حوّلها الآن إلى بوت تداول (EA) أو مؤشر حصري يحمل اسمك. نحن نحلل الفيديو، نصمم المنطق، ونبرمج البوت بدقة ليعمل على منصتك المفضلة، ليصبح منتجك الخاص الذي يتداول نيابة عنك.",
+            "أحوّلها الآن إلى بوت تداول (EA) أو مؤشر حصري يحمل اسمك. أحلل الفيديو، وأصمم المنطق، وأبرمج البوت بدقة ليعمل على منصتك المفضلة، ليصبح منتجك الخاص الذي يتداول نيابة عنك.",
           youtubeSteps: ["تحليل شروط الدخول", "تحويل المنطق إلى أوامر", "تسليم بوت قابل للاختبار"],
           aboutCards: ["منطق تداول قابل للقياس", "اختبار تاريخي وتحسين أداء", "حماية رأس المال وإدارة المخاطر", "تسليم واضح ودعم عملي"],
           aboutKicker: "الخبرة التي تقود الكود",
-          aboutTitle: "من نكون في Yahyaz Lab؟",
+          aboutTitle: "من يقف وراء YahyazLab؟",
           aboutText:
-            "نحن لسنا مجرد مبرمجين، بل نحن مهندسو استراتيجيات التداول. بخبرة ميدانية تمتد لسنوات طويلة في تحليل الأسواق وصقل الخوارزميات، نجمع بين المعرفة العميقة بأسواق المال والاحترافية البرمجية الدقيقة. نحن نتجاوز مجرد كتابة الكود إلى هندسة الربحية وتأمين رأس المال. ثق في خبرتنا لتكون جسرك نحو تداول آلي ناجح ومستدام.",
+            "لستُ مجرد كاتب أكواد تقليدي، بل أنا مطور برمجيات متخصص في هندسة وأتمتة استراتيجيات التداول. بخبرة تقنية ترتكز على فهم آليات الأسواق وصقل الخوارزميات، أدمج بين المهارة البرمجية الدقيقة وبناء الأدوات الرقمية المتقدمة. يتجاوز دوري مجرد صياغة الكود إلى تحويل منطقك التجاري الخاص واستراتيجيتك اليدوية إلى أدوات تداول آلي متينة، عالية الكفاءة، ومنفذة بدقة متناهية. ثق في خبرتي التقنية وشغفي بالبرمجة لتكون الجسر الحقيقي الذي ينقل أفكارك إلى عالم الأتمتة المستدامة.",
+          aboutNotice:
+            "ملاحظة هامة: YahyazLab هي العلامة المهنية لمطور برمجيات مستقل وعامل حر. أنا متخصص حصرياً في البرمجة المخصصة، وتحويل المؤشرات، وخدمات الأتمتة لمنصات MetaTrader (MQL4/MQL5) و TradingView (Pine Script) بناءً على المواصفات المباشرة للعملاء. إن YahyazLab ليس وسيطاً مالياً، أو منصة تداول، أو شركة استشارات استثمارية. أنا لا أدير أموال العملاء، ولا أسهل التداول الحي، ولا أقدم نصائح استثمارية.",
           portfolioKicker: "نماذج بصرية",
-          portfolioTitle: "أمثلة على أعمالنا",
+          portfolioTitle: "أمثلة على أعمالي",
           portfolioTitles: [
             "إكسبيرتات MT4/MT5 متقدمة مع لوحات تحكم",
             "مؤشرات دقيقة وإشارات بيع/شراء واضحة",
@@ -1478,17 +1848,44 @@
             },
           ],
           workflowKicker: "من الفكرة إلى التسليم",
-          workflowTitle: "رحلتك نحو الأتمتة معنا",
+          workflowTitle: "رحلة مشروعك نحو الأتمتة",
           workflowSteps: [
             ["إرسال الفيديو أو الفكرة", "شارك الرابط أو القواعد أو صورة الاستراتيجية التي تريد تحويلها."],
-            ["تحليل المنطق", "نفكك شروط الدخول والخروج وإدارة رأس المال بدقة هندسية."],
-            ["البرمجة والاختبار", "نبني البوت أو المؤشر ونختبر السلوك تاريخياً وعلى سيناريوهات متعددة."],
+            ["تحليل المنطق", "أفكك شروط الدخول والخروج وإدارة رأس المال بدقة هندسية."],
+            ["البرمجة والاختبار", "أبني البوت أو المؤشر وأختبر السلوك تاريخياً وعلى سيناريوهات متعددة."],
             ["التسليم والدعم", "تحصل على ملفات العمل وشرح الإعدادات ودعم ما بعد التسليم."],
           ],
+          fairPolicyKicker: "سياسة الاختبار",
+          fairPolicyTitle: "⚖️ سياسة الاستخدام العادل للاختبار والبرمجة التجريبية",
+          fairPolicySubtitle:
+            "أؤمن في YahyazLab بتقديم أعلى مستويات الشفافية وبناء الثقة. لذلك، أتيح لك تجربة استراتيجيتك برمجياً قبل الدفع التام وفق الشروط التقنية التالية:",
+          fairPolicyItems: [
+            {
+              title: "1. بيئة التشغيل التجريبية",
+              body: "النسخة التجريبية مصممة ومبرمجة لتعمل فقط على الحسابات التجريبية (Demo Accounts). ويُحظر برمجياً تشغيلها أو تفعيلها على أي حساب حقيقي (Live Account).",
+            },
+            {
+              title: "2. الصلاحية الزمنية",
+              body: "تنتهي صلاحية الأداة أو البوت تلقائياً بعد مرور (3 أيام / 72 ساعة) من وقت التسليم. ويتوقف الكود عن العمل تماماً دون أي إشعار مسبق.",
+            },
+            {
+              title: "3. تجميد المنطق البرمجي (Logic Freeze)",
+              body: "يتم الاتفاق على شروط الدخول والخروج ومؤشرات الاستراتيجية بدقة قبل البدء في البرمجة. فترة الـ 3 أيام مخصصة 'فقط' للتأكد من مطابقة البوت للشروط المتفق عليها، ولا يحق للعميل طلب تعديل اللوجيك أو إضافة ميزات جديدة مجاناً أثناء أو بعد فترة التجربة.",
+            },
+            {
+              title: "4. حقوق الملكية الفكرية والأكواد",
+              body: 'الكود المصدري المفتوح (Source Code) والنسخة الدائمة غير المحدودة هي ملك حصري لـ YahyazLab خلال فترة التطوير والاختبار، ويتم نقل كامل صلاحيات الملكية البرمجية للعميل فور إتمام تحويل المبلغ المتفق عليه كاملاً بعملة الـ <span dir="ltr" class="inline-block">USDT</span>.',
+            },
+            {
+              title: "🔒 5. سرية الاستراتيجيات وضمان عدم البيع (NDA)",
+              body: "ألتزم في YahyazLab بالسرية المطلقة تجاه تفاصيل منطق التداول (Trading Logic) الخاص بالعميل. الأداة أو البوت المطور يُعد ملكاً فكرياً وحصرياً لصاحبه فقط، وأضمن بشكل قاطع عدم إعادة بيع الأكواد، أو مشاركتها، أو استغلال الاستراتيجية تجارياً مع أي طرف ثالث تحت أي ظرف من الظروف.",
+            },
+          ],
           contactKicker: "ابدأ المشروع",
-          contactTitle: "احكِ لنا عن فكرتك، ودع الباقي علينا",
-          contactText: "أرسل وصف المشروع أو رابط فيديو يوتيوب للاستراتيجية، وسنعود إليك بتصور عملي وخطوات تنفيذ واضحة.",
+          contactTitle: "احكِ لي عن فكرتك، ودع الباقي عليّ",
+          contactText: "أرسل وصف المشروع أو رابط فيديو يوتيوب للاستراتيجية، وسأعود إليك بتصور عملي وخطوات تنفيذ واضحة.",
           emailLabel: "البريد المهني",
+          geoStatus: "الموقع الجغرافي: مطور برمجيات حر ومستقل - سلطنة عُمان",
           whatsappLabel: "تواصل مباشر",
           whatsappButton: "تواصل عبر الواتساب",
           formLabels: ["الاسم", "البريد الإلكتروني", "تفاصيل المشروع"],
@@ -1498,7 +1895,10 @@
             "وصف الاستراتيجية أو أنظمة إدارة المخاطر...",
           ],
           submit: "إرسال طلب المشروع",
-          footer: ["© {year} مختبر يحيى. جميع الحقوق محفوظة.", "ميتاتريدر ٤ · ميتاتريدر ٥ · تريدنغ فيو · باين سكريبت"],
+          contactDisclosure:
+            "ملاحظة: من خلال YahyazLab أقدم خدمات البرمجة التقنية بحتة. لن أطلب منك أبداً كلمات مرور حسابات التداول الحية، أو بيانات اعتماد الوسيط، أو التفاصيل المالية الشخصية. يتم التعامل مع أفكار مشاريعك بسرية تامة بنسبة 100٪ وفقاً لسياسة الخصوصية.",
+          footer: ["© 2026 YahyazLab. All rights reserved.", "ميتاتريدر ٤ · ميتاتريدر ٥ · تريدنغ فيو · باين سكريبت"],
+          footerLinks: ["سياسة الخصوصية", "شروط الخدمة", "إخلاء مسؤولية المخاطر"],
           whatsapp: "تواصل عبر واتساب",
           lightboxTitle: "معاينة العمل",
           closeLightbox: "إغلاق المعاينة",
@@ -1506,19 +1906,19 @@
         en: {
           lang: "en",
           dir: "ltr",
-          pageTitle: "Yahyaz Lab | Trading Automation Engineering",
+          pageTitle: "YahyazLab | Trading Automation Engineering",
           metaDescription:
-            "Yahyaz Lab engineers trading automation: Expert Advisors, trading bots, custom indicators, and advanced tools for MetaTrader and TradingView.",
-          logoAlt: "Yahyaz Lab logo",
+            "YahyazLab engineers trading automation: Expert Advisors, trading bots, custom indicators, and advanced tools for MetaTrader and TradingView.",
+          logoAlt: "YahyazLab logo",
           langLabel: "Choose language",
           nav: ["Idea to Bot", "About", "Work", "Pricing", "Workflow", "Contact"],
           headerCta: "Request Consultation",
           heroKicker: "Trading Automation Engineering Lab",
-          heroTitle: "Your Bridge to Automated Trading.. Transform Your Custom Strategy into Real Indicators & Bots",
+          heroTitle: "Convert Your Strategy into an Automated Trading Bot & Custom Indicator.. And Test It Before Paying",
           heroSubtitle:
-            "Start developing your own custom indicator equipped with clear trade signals, and convert any trading logic—whether a personal concept or a strategy from YouTube and beyond—into a fully automated, risk-managed algorithmic trading bot.",
-          heroPrimary: "Start Automation Now",
-          heroSecondary: "Explore Services",
+            "At YahyazLab, I provide precise software engineering to automate your trades on MT4, MT5, and TradingView. Share your written or visual strategy rules, and I will grant you a 3-day trial version to verify performance accuracy yourself.",
+          heroPrimary: "Start Coding Your Strategy Now (WhatsApp)",
+          heroSecondary: "View Fair Testing Policy",
           heroStats: ["Expert Advisors", "Bots & Signals", "TradingView"],
           engineLabel: "Automation Engine",
           engineRows: ["Confirmed Entry Signal", "Active", "Risk Management", "Active", "Automated Execution", "Active"],
@@ -1539,15 +1939,17 @@
           youtubeKicker: "From Watching to Automation",
           youtubeTitle: "Watched a golden strategy on YouTube?",
           youtubeText:
-            "Turn it into a trading bot (EA) or an exclusive indicator carrying your name. We analyze the video, design the logic, and code the bot precisely for your preferred platform so it can trade on your behalf.",
+            "I can turn it into a trading bot (EA) or an exclusive indicator carrying your name. I analyze the video, design the logic, and code the bot precisely for your preferred platform so it can trade on your behalf.",
           youtubeSteps: ["Analyze entry rules", "Convert logic into orders", "Deliver a testable bot"],
           aboutCards: ["Measurable trading logic", "Backtesting and optimization", "Capital and risk protection", "Clear delivery and practical support"],
           aboutKicker: "Experience That Leads the Code",
-          aboutTitle: "Who are we at Yahyaz Lab?",
+          aboutTitle: "Who Is Behind YahyazLab?",
           aboutText:
-            "We are not just programmers; we are trading strategy engineers. With years of field experience in market analysis and algorithm refinement, we combine deep financial-market knowledge with precise software craftsmanship. We go beyond writing code into engineering profitability and protecting capital. Trust our expertise to be your bridge toward successful and sustainable automated trading.",
+            "I am not a traditional code writer; I am a software developer specialized in engineering and automating trading strategies. With technical expertise grounded in market mechanics and algorithm refinement, I combine precise software craftsmanship with advanced digital tool development. My role goes beyond writing code: I transform your proprietary trading logic and manual strategy into robust, efficient, and precisely executed automation tools. Trust my technical expertise and passion for programming to be the bridge that moves your ideas into sustainable automation.",
+          aboutNotice:
+            "Important Notice: YahyazLab is the professional brand of an independent freelance software developer. I specialize strictly in custom programming, indicator conversion, and automation services for MetaTrader (MQL4/MQL5) and TradingView (Pine Script) based on direct customer specifications. YahyazLab is not a financial broker, trading platform, or investment advisory firm. I do not manage client funds, facilitate live trading, or provide investment advice.",
           portfolioKicker: "Visual Examples",
-          portfolioTitle: "Examples of Our Work",
+          portfolioTitle: "Examples of My Work",
           portfolioTitles: [
             "Advanced MT4/MT5 Expert Advisors with Control Panels",
             "Precise Indicators with Clear Buy/Sell Signals",
@@ -1599,17 +2001,44 @@
             },
           ],
           workflowKicker: "From Idea to Delivery",
-          workflowTitle: "Your Automation Journey With Us",
+          workflowTitle: "Your Automation Journey",
           workflowSteps: [
             ["Submit Video or Concept", "Share the link, rules, or screenshot of the strategy you want to automate."],
-            ["Logic Analysis", "We break down entry/exit conditions and money management with engineering precision."],
-            ["Coding & Backtesting", "We build your bot or indicator and historical backtest its behavior across multiple market scenarios."],
+            ["Logic Analysis", "I break down entry/exit conditions and money management with engineering precision."],
+            ["Coding & Backtesting", "I build your bot or indicator and historical backtest its behavior across multiple market scenarios."],
             ["Delivery & Support", "Receive your source/compiled files, setup guides, and comprehensive post-delivery support."],
           ],
+          fairPolicyKicker: "Testing Policy",
+          fairPolicyTitle: "⚖️ Fair Use Policy for Testing & Beta Development",
+          fairPolicySubtitle:
+            "At YahyazLab, I believe in transparency and building trust. Therefore, I allow you to test your strategy programmatically before full payment, subject to the following technical terms:",
+          fairPolicyItems: [
+            {
+              title: "1. Demo Testing Environment",
+              body: "The trial version is exclusively designed and programmed to run only on Demo Accounts. It is strictly prohibited and hardcoded to prevent activation on any live trading account.",
+            },
+            {
+              title: "2. Time Expiration Validity",
+              body: "The trial tool or bot automatically expires exactly after (3 days / 72 hours) from the delivery timestamp. The code will completely halt execution without prior notice.",
+            },
+            {
+              title: "3. Logic Freeze Agreement",
+              body: "All entry/exit rules and strategy indicators are strictly frozen and agreed upon before coding begins. The 3-day trial period is allocated 'only' to verify that the bot matches the preset criteria; the client cannot request modifications to the core logic or add new features for free during or after the trial.",
+            },
+            {
+              title: "4. Intellectual Property & Source Code",
+              body: 'The open source code and the permanent, unlimited version remain the exclusive property of YahyazLab during the development and testing phase. Full ownership rights are transferred to the client immediately upon completing the full agreed payment via <span dir="ltr" class="inline-block">USDT</span>.',
+            },
+            {
+              title: "🔒 5. Strategy Confidentiality & Non-Disclosure (NDA)",
+              body: "At YahyazLab, I strictly commit to absolute non-disclosure regarding the client's proprietary trading logic. The developed tool or bot is considered the exclusive intellectual property of its owner, and I guarantee unconditionally that the code will never be resold, shared, or commercially exploited with any third party under any circumstances.",
+            },
+          ],
           contactKicker: "Start the Project",
-          contactTitle: "Tell Us Your Idea, Leave the Rest to the Lab",
-          contactText: "Send your project description or YouTube strategy link, and we will get back to you with a practical roadmap and clear execution steps.",
+          contactTitle: "Tell Me Your Idea, Leave the Rest to Me",
+          contactText: "Send your project description or YouTube strategy link, and I will get back to you with a practical roadmap and clear execution steps.",
           emailLabel: "Professional Email",
+          geoStatus: "Geographic Status: Independent Freelance Developer Based in Oman",
           whatsappLabel: "Direct Contact",
           whatsappButton: "Chat via WhatsApp",
           formLabels: ["Name", "Email Address", "Project Details"],
@@ -1619,7 +2048,10 @@
             "Describe your strategy, indicators, or risk management rules...",
           ],
           submit: "Submit Project Request",
-          footer: ["© {year} Yahyaz Lab. All rights reserved.", "MetaTrader 4 · MetaTrader 5 · TradingView · Pine Script"],
+          contactDisclosure:
+            "Note: Through YahyazLab, I strictly provide technical coding services. I will never ask for your live trading account passwords, broker credentials, or personal financial details. Your project ideas are handled with 100% confidentiality according to the Privacy Policy.",
+          footer: ["© 2026 YahyazLab. All rights reserved.", "MetaTrader 4 · MetaTrader 5 · TradingView · Pine Script"],
+          footerLinks: ["Privacy Policy", "Terms of Service", "Risk Disclaimer"],
           whatsapp: "Contact via WhatsApp",
           lightboxTitle: "Work Preview",
           closeLightbox: "Close preview",
@@ -1676,9 +2108,9 @@
         document.body.dir = t.dir;
         document.title = t.pageTitle;
         document.querySelector("meta[name='description']")?.setAttribute("content", t.metaDescription);
-        document.querySelectorAll("#workflow, #contact").forEach((section) => section.setAttribute("dir", t.dir));
+        document.querySelectorAll("#workflow, #fair-use-policy, #contact").forEach((section) => section.setAttribute("dir", t.dir));
 
-        document.querySelector("header a[aria-label]")?.setAttribute("aria-label", t.lang === "ar" ? "مختبر يحيى" : "Yahyaz Lab");
+        document.querySelector("header a[aria-label]")?.setAttribute("aria-label", "YahyazLab");
         document.querySelectorAll(".logo-mark").forEach((image) => (image.alt = t.logoAlt));
         document.querySelector(".language-switch")?.setAttribute("aria-label", t.langLabel);
         document.querySelectorAll("[data-lang]").forEach((button) => button.classList.toggle("is-active", button.dataset.lang === language));
@@ -1691,6 +2123,14 @@
         setText("main > section:first-of-type h1 + p", t.heroSubtitle);
         setText("main > section:first-of-type .cta-primary", t.heroPrimary);
         setText("main > section:first-of-type .cta-secondary", t.heroSecondary);
+        const heroPrimaryCta = document.querySelector("main > section:first-of-type .cta-primary");
+        heroPrimaryCta?.setAttribute("href", whatsappUrl);
+        heroPrimaryCta?.setAttribute("target", "_blank");
+        heroPrimaryCta?.setAttribute("rel", "noopener noreferrer");
+        const heroSecondaryCta = document.querySelector("main > section:first-of-type .cta-secondary");
+        heroSecondaryCta?.setAttribute("href", "#fair-use-policy");
+        heroSecondaryCta?.removeAttribute("target");
+        heroSecondaryCta?.removeAttribute("rel");
         setAll("main > section:first-of-type .grid.max-w-2xl .text-xs", t.heroStats);
         setText("main > section:first-of-type .tracking-\\[\\.14em\\]", t.engineLabel);
         setAll("main > section:first-of-type .mt-5.grid.gap-3 span", t.engineRows);
@@ -1705,6 +2145,8 @@
         setText("#about .section-kicker", t.aboutKicker);
         setText("#about h2", t.aboutTitle);
         setText("#about h2 + p", t.aboutText);
+        setText("#about .about-notice-text", t.aboutNotice);
+        document.querySelector("#about .about-notice")?.setAttribute("dir", t.dir);
 
         setText("#portfolio .section-kicker", t.portfolioKicker);
         setText("#portfolio h2", t.portfolioTitle);
@@ -1737,10 +2179,22 @@
           setText("p", step[1], card);
         });
 
+        setText("#fair-use-policy .section-kicker", t.fairPolicyKicker);
+        setText("#fair-use-policy .fair-policy-title", t.fairPolicyTitle);
+        setText("#fair-use-policy .fair-policy-subtitle", t.fairPolicySubtitle);
+        document.querySelectorAll("#fair-use-policy .fair-policy-item").forEach((item, index) => {
+          const policyItem = t.fairPolicyItems[index];
+          if (!policyItem) return;
+          setText(".fair-policy-item-title", policyItem.title, item);
+          setHtml(".fair-policy-item-body", policyItem.body, item);
+        });
+        syncOpenPolicyPanels();
+
         setText("#contact .section-kicker", t.contactKicker);
         setText("#contact h2", t.contactTitle);
         setText("#contact h2 + p", t.contactText);
         setText("#contact [data-contact-email-label]", t.emailLabel);
+        setText("#contact .geo-status", t.geoStatus);
         setText("#contact .contact-whatsapp-label", t.whatsappLabel);
         setText("#contact .contact-whatsapp-text", t.whatsappButton);
         setAll("#contact form label span", t.formLabels);
@@ -1750,6 +2204,7 @@
           field.setAttribute("dir", field.type === "email" ? "ltr" : t.dir);
         });
         setText("#contact button[type='submit']", t.submit);
+        setText("#contact .contact-disclosure", t.contactDisclosure);
         document.querySelector("#contact form")?.setAttribute("dir", t.dir);
         document.querySelector("#contact form")?.setAttribute("action", `mailto:${contactEmail}`);
         document.querySelectorAll("[data-contact-email]").forEach((link) => {
@@ -1761,6 +2216,8 @@
         const footerParagraphs = document.querySelectorAll("footer p");
         if (footerParagraphs[0]) footerParagraphs[0].textContent = t.footer[0].replace("{year}", currentYear);
         if (footerParagraphs[1]) footerParagraphs[1].textContent = t.footer[1];
+        setAll("footer .legal-footer-link", t.footerLinks);
+        document.querySelector("footer nav")?.setAttribute("dir", t.dir);
 
         const whatsapp = document.querySelector(".whatsapp");
         whatsapp?.setAttribute("aria-label", t.whatsapp);
@@ -1779,7 +2236,13 @@
       }
 
       document.querySelectorAll("[data-lang]").forEach((button) => {
-        button.addEventListener("click", () => applyLanguage(button.dataset.lang));
+        button.addEventListener("click", () => {
+          const selectedLanguage = button.dataset.lang;
+          if (selectedLanguage === "ar" || selectedLanguage === "en") {
+            localStorage.setItem(languageStorageKey, selectedLanguage);
+            applyLanguage(selectedLanguage);
+          }
+        });
       });
 
       const observer = new IntersectionObserver(
@@ -1808,6 +2271,35 @@
           item.style.setProperty("--feature-delay", `${index * 70}ms`);
         });
       });
+
+      function setPolicyItemOpen(item, shouldOpen) {
+        const trigger = item.querySelector(".fair-policy-trigger");
+        const panel = item.querySelector(".fair-policy-panel");
+        if (!trigger || !panel) return;
+
+        item.classList.toggle("is-open", shouldOpen);
+        trigger.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+        panel.style.height = shouldOpen ? `${panel.scrollHeight}px` : "0px";
+      }
+
+      function syncOpenPolicyPanels() {
+        document.querySelectorAll("#fair-use-policy .fair-policy-item.is-open").forEach((item) => {
+          const panel = item.querySelector(".fair-policy-panel");
+          if (panel) panel.style.height = `${panel.scrollHeight}px`;
+        });
+      }
+
+      document.querySelectorAll("#fair-use-policy .fair-policy-trigger").forEach((trigger) => {
+        trigger.addEventListener("click", () => {
+          const currentItem = trigger.closest(".fair-policy-item");
+          const shouldOpen = trigger.getAttribute("aria-expanded") !== "true";
+          document.querySelectorAll("#fair-use-policy .fair-policy-item").forEach((item) => {
+            setPolicyItemOpen(item, item === currentItem ? shouldOpen : false);
+          });
+        });
+      });
+
+      window.addEventListener("resize", syncOpenPolicyPanels);
 
       document.querySelectorAll(".platform-card").forEach((card) => {
         card.addEventListener("pointermove", (event) => {
@@ -1869,6 +2361,8 @@
       });
 
       function getSystemLanguage() {
+        const storedLanguage = localStorage.getItem(languageStorageKey);
+        if (storedLanguage === "ar" || storedLanguage === "en") return storedLanguage;
         const languages = window.navigator?.languages?.length ? window.navigator.languages : [window.navigator?.language || "en"];
         const primaryLanguage = (languages[0] || "en").toLowerCase();
         return primaryLanguage.startsWith("ar") ? "ar" : "en";
