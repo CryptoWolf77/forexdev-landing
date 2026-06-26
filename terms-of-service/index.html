@@ -4,10 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#071326" />
     <meta
       name="description"
       content="Terms of Service for YahyazLab, an independent freelance software development brand based in Oman."
     />
+    <link rel="canonical" href="https://forexdev.yahyazlab.com/terms-of-service" />
+    <link rel="alternate" hreflang="en" href="https://forexdev.yahyazlab.com/terms-of-service?lang=en" />
+    <link rel="alternate" hreflang="ar" href="https://forexdev.yahyazlab.com/terms-of-service?lang=ar" />
+    <link rel="alternate" hreflang="x-default" href="https://forexdev.yahyazlab.com/terms-of-service" />
+    <link rel="icon" type="image/png" href="https://forexdev.yahyazlab.com/assets/yahyaz-lab-logo.png" />
+    <meta property="og:title" content="Terms of Service | YahyazLab" />
+    <meta property="og:description" content="Terms of Service for YahyazLab, an independent freelance software development brand based in Oman." />
+    <meta property="og:url" content="https://forexdev.yahyazlab.com/terms-of-service" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://forexdev.yahyazlab.com/assets/yahyaz-lab-logo.png" />
+    <meta property="og:site_name" content="YahyazLab" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Terms of Service | YahyazLab" />
+    <meta name="twitter:description" content="Terms of Service for YahyazLab, an independent freelance software development brand based in Oman." />
+    <meta name="twitter:image" content="https://forexdev.yahyazlab.com/assets/yahyaz-lab-logo.png" />
     <title>Terms of Service | YahyazLab</title>
     <style>
       :root {
@@ -190,6 +207,7 @@
           pages: {
             terms: {
               title: "شروط الخدمة",
+              description: "شروط خدمة YahyazLab لخدمات البرمجة المخصصة والتطوير التقني الحر لإكسبيرتات التداول والمؤشرات.",
               content:
                 "شروط الخدمة: أقدم خدمات البرمجة المخصصة والتطوير التقني من خلال YahyazLab على أساس العمل الحر (Freelance). باستخدامك لخدمات البرمجة المخصصة، فإنك تقر بأنك تطلب تنفيذاً تقنياً لآلية إستراتيجيتك الخاصة والمستقلة. أنا لا أقدم ضمانات مالية، أو إشارات تداول، أو نصائح استثمارية.",
             },
@@ -204,6 +222,7 @@
           pages: {
             terms: {
               title: "Terms of Service",
+              description: "Terms of Service for YahyazLab, an independent freelance software development brand based in Oman.",
               content:
                 "Terms of Service: I provide custom programming and technical development services under YahyazLab on an 'as-is' freelance basis. By utilizing my custom coding services, you acknowledge that you are requesting a technical implementation of your own independent strategy logic. I do not offer financial guarantees, trading signals, or investment advice.",
             },
@@ -230,7 +249,11 @@
         document.documentElement.dir = t.dir;
         document.body.dir = t.dir;
         document.title = `${page.title} | YahyazLab`;
-        document.querySelector("meta[name='description']")?.setAttribute("content", page.content);
+        document.querySelector("meta[name='description']")?.setAttribute("content", page.description);
+        document.querySelector('meta[property="og:title"]')?.setAttribute("content", `${page.title} | YahyazLab`);
+        document.querySelector('meta[property="og:description"]')?.setAttribute("content", page.description);
+        document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", `${page.title} | YahyazLab`);
+        document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", page.description);
         document.querySelector(".back-text").textContent = t.back;
         document.querySelector(".back-link").setAttribute("href", `/?lang=${t.lang}`);
         document.querySelector(".kicker").textContent = t.kicker;

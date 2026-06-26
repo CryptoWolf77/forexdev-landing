@@ -4,10 +4,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#071326" />
     <meta
       name="description"
       content="Financial Risk Disclaimer for YahyazLab technical software development services."
     />
+    <link rel="canonical" href="https://forexdev.yahyazlab.com/risk-disclaimer" />
+    <link rel="alternate" hreflang="en" href="https://forexdev.yahyazlab.com/risk-disclaimer?lang=en" />
+    <link rel="alternate" hreflang="ar" href="https://forexdev.yahyazlab.com/risk-disclaimer?lang=ar" />
+    <link rel="alternate" hreflang="x-default" href="https://forexdev.yahyazlab.com/risk-disclaimer" />
+    <link rel="icon" type="image/png" href="https://forexdev.yahyazlab.com/assets/yahyaz-lab-logo.png" />
+    <meta property="og:title" content="Risk Disclaimer | YahyazLab" />
+    <meta property="og:description" content="Financial Risk Disclaimer for YahyazLab technical software development services." />
+    <meta property="og:url" content="https://forexdev.yahyazlab.com/risk-disclaimer" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://forexdev.yahyazlab.com/assets/yahyaz-lab-logo.png" />
+    <meta property="og:site_name" content="YahyazLab" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Risk Disclaimer | YahyazLab" />
+    <meta name="twitter:description" content="Financial Risk Disclaimer for YahyazLab technical software development services." />
+    <meta name="twitter:image" content="https://forexdev.yahyazlab.com/assets/yahyaz-lab-logo.png" />
     <title>Risk Disclaimer | YahyazLab</title>
     <style>
       :root {
@@ -190,6 +207,7 @@
           pages: {
             risk: {
               title: "إخلاء مسؤولية المخاطر",
+              description: "إخلاء مسؤولية المخاطر المالية لخدمات YahyazLab التقنية في برمجة أدوات التداول الآلي والمؤشرات.",
               content:
                 "إخلاء مسؤولية المخاطر المالية: إن التداول في الأدوات المالية، بما في ذلك الفوركس والسلع والمشتقات، ينطوي على مخاطر عالية وقد لا يكون مناسباً لجميع المستثمرين. إن الأدوات البرمجية، والمؤشرات المخصصة، وإكسبيرتات التداول الآلي (EAs) التي يتم تطويرها في YahyazLab هي منتجات تقنية بحتة مصممة لأغراض المحاكاة والتفحص التاريخي (Backtesting) والتعليم بناءً على الإستراتيجية والمواصفات المقدمة من قِبل المستخدم. الأداء السابق لأي خوارزمية لا يضمن النتائج المستقبلية. كمطور مستقل، أنا لست وسيطاً مالياً ولا أقدم استشارات استثمارية، وأخلي مسؤوليتي تماماً عن أي قرارات تداول حية أو خسائر مالية، ويتحمل المستخدمون كامل مخاطر التداول.",
             },
@@ -204,6 +222,7 @@
           pages: {
             risk: {
               title: "Risk Disclaimer",
+              description: "Financial Risk Disclaimer for YahyazLab technical software development services.",
               content:
                 "Financial Risk Disclaimer: Trading financial instruments, including forex, commodities, and derivatives, involves a high level of risk. The automated tools, Expert Advisors (EAs), and custom indicators developed by YahyazLab are purely technical software products designed for backtesting and educational purposes based on specifications provided by the user. Past performance of any algorithm does not guarantee future results. As an independent developer, I am not a financial broker or investment advisor. I am not responsible for any live trading decisions or financial losses. Users assume all trading risks.",
             },
@@ -230,7 +249,11 @@
         document.documentElement.dir = t.dir;
         document.body.dir = t.dir;
         document.title = `${page.title} | YahyazLab`;
-        document.querySelector("meta[name='description']")?.setAttribute("content", page.content);
+        document.querySelector("meta[name='description']")?.setAttribute("content", page.description);
+        document.querySelector('meta[property="og:title"]')?.setAttribute("content", `${page.title} | YahyazLab`);
+        document.querySelector('meta[property="og:description"]')?.setAttribute("content", page.description);
+        document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", `${page.title} | YahyazLab`);
+        document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", page.description);
         document.querySelector(".back-text").textContent = t.back;
         document.querySelector(".back-link").setAttribute("href", `/?lang=${t.lang}`);
         document.querySelector(".kicker").textContent = t.kicker;
