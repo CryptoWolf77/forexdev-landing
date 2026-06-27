@@ -1435,7 +1435,7 @@
               في YahyazLab، أقدّم هندسة برمجية دقيقة لأتمتة صفقاتك على منصات MT4، MT5، وTradingView. شاركني شروط استراتيجيتك المكتوبة أو المرئية، وسأمنحك نسخة تجريبية لـ 3 أيام لتتأكد من دقة الأداء بنفسك.
             </p>
             <div class="hero-cascade hero-cta-focus mt-10 mb-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:mb-4" style="--hero-delay: 430ms">
-              <a href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer" onclick="return gtag_report_conversion('https://wa.me/628211323886');" class="cta-primary hero-primary-cta">ابدأ برمجة استراتيجيتك الآن (واتساب)</a>
+              <a href="https://api.whatsapp.com/send/?phone=628211323886" target="_blank" rel="noopener noreferrer" onclick="gtag_report_conversion();" class="cta-primary hero-primary-cta">ابدأ برمجة استراتيجيتك الآن (واتساب)</a>
               <a href="#fair-use-policy" class="cta-secondary">اطلع على سياسة الاختبار العادل</a>
             </div>
             <div class="hero-cascade mt-10 grid max-w-2xl grid-cols-3 gap-3 text-center" style="--hero-delay: 560ms">
@@ -1854,7 +1854,7 @@
                 </div>
                 <div class="mt-4 rounded-3xl border border-[#25D366]/25 bg-[#25D366]/10 p-5">
                   <p class="contact-whatsapp-label text-sm font-bold text-white/48">تواصل مباشر</p>
-                  <a class="contact-whatsapp mt-3" href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer" onclick="return gtag_report_conversion('https://wa.me/628211323886');">
+                  <a class="contact-whatsapp mt-3" href="https://api.whatsapp.com/send/?phone=628211323886" target="_blank" rel="noopener noreferrer" onclick="gtag_report_conversion();">
                     <span aria-hidden="true">☎</span>
                     <span class="contact-whatsapp-text">تواصل عبر الواتساب</span>
                   </a>
@@ -1904,10 +1904,10 @@
 
     <a
       class="whatsapp fixed bottom-5 left-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white transition hover:-translate-y-1"
-      href="https://wa.me/628211323886"
+      href="https://api.whatsapp.com/send/?phone=628211323886"
       target="_blank"
       rel="noopener noreferrer"
-      onclick="return gtag_report_conversion('https://wa.me/628211323886');"
+      onclick="gtag_report_conversion();"
       aria-label="تواصل عبر واتساب"
       title="تواصل عبر واتساب"
     >
@@ -1930,7 +1930,10 @@
       const currentYear = new Date().getFullYear().toString();
       const contactEmail = "admin@yahyazlab.com";
       const whatsappPhoneNumber = "628211323886";
-      const whatsappUrl = `https://wa.me/${whatsappPhoneNumber}`;
+      const whatsappMessages = {
+        ar: "مرحباً YahyazLab، أود الاستفسار عن خدمات برمجة التداول والأتمتة.",
+        en: "Hello YahyazLab, I would like to inquire about your trading automation and development services.",
+      };
       const languageStorageKey = "yahyazlab-language";
       const yearElement = document.getElementById("year");
       if (yearElement) yearElement.textContent = currentYear;
@@ -2279,12 +2282,19 @@
         document.querySelector(selector)?.setAttribute("content", value);
       }
 
-      function normalizeWhatsAppLinks() {
-        document.querySelectorAll('a[href*="wa.me"], .whatsapp, .contact-whatsapp, .hero-primary-cta').forEach((link) => {
-          link.setAttribute("href", whatsappUrl);
+      function getWhatsAppUrl(language = document.documentElement.lang) {
+        const normalizedLanguage = language === "ar" ? "ar" : "en";
+        const activeMessage = whatsappMessages[normalizedLanguage] || whatsappMessages.en;
+        return `https://api.whatsapp.com/send/?phone=${whatsappPhoneNumber}&text=${encodeURIComponent(activeMessage)}`;
+      }
+
+      function normalizeWhatsAppLinks(language = document.documentElement.lang) {
+        const localizedWhatsappUrl = getWhatsAppUrl(language);
+        document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com/send"], .whatsapp, .contact-whatsapp, .hero-primary-cta').forEach((link) => {
+          link.setAttribute("href", localizedWhatsappUrl);
           link.setAttribute("target", "_blank");
           link.setAttribute("rel", "noopener noreferrer");
-          link.setAttribute("onclick", `return gtag_report_conversion('${whatsappUrl}');`);
+          link.setAttribute("onclick", "gtag_report_conversion();");
         });
       }
 
@@ -2317,6 +2327,7 @@
 
       function applyLanguage(language) {
         const t = translations[language] || translations.ar;
+        const whatsappUrl = getWhatsAppUrl(t.lang);
         localStorage.setItem(languageStorageKey, t.lang);
         localStorage.setItem("selectedLanguage", t.lang);
         document.documentElement.lang = t.lang;
@@ -2458,7 +2469,7 @@
         contactWhatsapp?.setAttribute("href", whatsappUrl);
         contactWhatsapp?.setAttribute("target", "_blank");
         contactWhatsapp?.setAttribute("rel", "noopener noreferrer");
-        normalizeWhatsAppLinks();
+        normalizeWhatsAppLinks(t.lang);
         lightboxTitle.textContent = t.lightboxTitle;
         closeLightboxButton.setAttribute("aria-label", t.closeLightbox);
       }
