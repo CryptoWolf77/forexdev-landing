@@ -15,7 +15,7 @@
     <link rel="alternate" hreflang="en" href="https://forexdev.yahyazlab.com/" />
     <link rel="alternate" hreflang="ar" href="https://forexdev.yahyazlab.com/?lang=ar" />
     <link rel="alternate" hreflang="x-default" href="https://forexdev.yahyazlab.com/" />
-    <link rel="icon" type="image/png" href="https://forexdev.yahyazlab.com/assets/yahyaz-lab-logo.png" />
+    <link rel="icon" type="image/png" href="assets/yahyaz-lab-logo.png" />
     <meta property="og:title" content="Custom MT4/MT5 EA Developer | Forex Trading Bots | YahyazLab" />
     <meta
       property="og:description"
@@ -43,35 +43,16 @@
       gtag('config', 'AW-18274663357');
     </script>
     <script>
-      function gtag_report_conversion(url) {
-        var callback = function () {
-          if (typeof(url) !== 'undefined') {
-            window.location = url;
-          }
-        };
-
+      function gtag_report_conversion() {
         if (typeof gtag === 'function') {
           gtag('event', 'conversion', {
             'send_to': 'AW-18274663357/-zjcCNSWhCyCEI33hIpF',
             'value': 1.0,
-            'currency': 'USD',
-            'event_callback': callback
+            'currency': 'USD'
           });
-
-          setTimeout(function () {
-            if (typeof(url) !== 'undefined') {
-              window.location = url;
-            }
-          }, 1000);
-
-          return false;
         }
 
-        if (typeof(url) !== 'undefined') {
-          window.location = url;
-        }
-
-        return false;
+        return true;
       }
     </script>
     <script type="application/ld+json">
@@ -164,29 +145,7 @@
         ]
       }
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Tajawal", "Cairo", "Noto Kufi Arabic", "Segoe UI", "Tahoma", "Arial", "sans-serif"],
-            },
-            colors: {
-              frost: "#69dcff",
-              ice: "#a8efff",
-              plasma: "#ff386f",
-              ink: "#050812",
-              midnight: "#071326",
-            },
-            boxShadow: {
-              frost: "0 0 38px rgba(105, 220, 255, .36)",
-              plasma: "0 0 36px rgba(255, 56, 111, .32)",
-            },
-          },
-        },
-      };
-    </script>
+    <link rel="stylesheet" href="assets/safe-utilities.css" />
     <style>
       :root {
         color-scheme: dark;
@@ -1415,7 +1374,7 @@
             <button class="is-active" type="button" data-lang="ar" aria-label="عرض الموقع باللغة العربية">AR</button>
             <button type="button" data-lang="en" aria-label="View website in English">EN</button>
           </div>
-          <a href="#contact" onclick="return gtag_report_conversion('#contact');" class="cta-secondary hidden min-h-11 px-5 text-sm md:inline-flex">طلب استشارة</a>
+          <a href="#contact" onclick="gtag_report_conversion();" class="cta-secondary hidden min-h-11 px-5 text-sm md:inline-flex">طلب استشارة</a>
         </div>
       </nav>
     </header>
@@ -1435,7 +1394,7 @@
               في YahyazLab، أقدّم هندسة برمجية دقيقة لأتمتة صفقاتك على منصات MT4، MT5، وTradingView. شاركني شروط استراتيجيتك المكتوبة أو المرئية، وسأمنحك نسخة تجريبية لـ 3 أيام لتتأكد من دقة الأداء بنفسك.
             </p>
             <div class="hero-cascade hero-cta-focus mt-10 mb-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap lg:mb-4" style="--hero-delay: 430ms">
-              <a href="https://api.whatsapp.com/send/?phone=628211323886" target="_blank" rel="noopener noreferrer" onclick="gtag_report_conversion();" class="cta-primary hero-primary-cta">ابدأ برمجة استراتيجيتك الآن (واتساب)</a>
+              <a href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer" onclick="gtag_report_conversion();" class="cta-primary hero-primary-cta">ابدأ برمجة استراتيجيتك الآن (واتساب)</a>
               <a href="#fair-use-policy" class="cta-secondary">اطلع على سياسة الاختبار العادل</a>
             </div>
             <div class="hero-cascade mt-10 grid max-w-2xl grid-cols-3 gap-3 text-center" style="--hero-delay: 560ms">
@@ -1595,7 +1554,7 @@
             </p>
             <div class="compliance-notice about-notice mt-8 p-5">
               <p class="about-notice-text text-sm font-bold leading-7 text-white/66">
-                Important Notice: YahyazLab is the professional brand of an independent freelance software developer. I specialize strictly in custom programming, indicator conversion, and automation services for MetaTrader (MQL4/MQL5) and TradingView (Pine Script) based on direct customer specifications. YahyazLab is not a financial broker, trading platform, or investment advisory firm. I do not manage client funds, facilitate live trading, or provide investment advice.
+                YahyazLab provides software development services only. I do not provide financial advice, investment recommendations, or profit guarantees. Trading involves risk, and clients are responsible for testing and using any automated tools. YahyazLab is not a financial broker, trading platform, or investment advisory firm.
               </p>
             </div>
           </div>
@@ -1817,13 +1776,13 @@
 
               <div class="fair-policy-item">
                 <button class="fair-policy-trigger" type="button" aria-expanded="false" aria-controls="fair-policy-panel-5">
-                  <span class="fair-policy-item-title text-lg font-black sm:text-xl">🔒 5. سرية الاستراتيجيات وضمان عدم البيع (NDA)</span>
+                  <span class="fair-policy-item-title text-lg font-black sm:text-xl">🔒 5. سرية الاستراتيجيات وعدم مشاركة الأكواد (NDA)</span>
                   <span class="fair-policy-arrow" aria-hidden="true">⌄</span>
                 </button>
                 <div class="fair-policy-panel" id="fair-policy-panel-5">
                   <div class="fair-policy-panel-inner">
                     <p class="fair-policy-item-body leading-8 text-white/68">
-                      ألتزم في YahyazLab بالسرية المطلقة تجاه تفاصيل منطق التداول (Trading Logic) الخاص بالعميل. الأداة أو البوت المطور يُعد ملكاً فكرياً وحصرياً لصاحبه فقط، وأضمن بشكل قاطع عدم إعادة بيع الأكواد، أو مشاركتها، أو استغلال الاستراتيجية تجارياً مع أي طرف ثالث تحت أي ظرف من الظروف.
+                      ألتزم في YahyazLab بالسرية تجاه تفاصيل منطق التداول (Trading Logic) الخاص بالعميل. الأداة أو البوت المطور يُعد ملكاً فكرياً لصاحبه بعد اكتمال شروط التسليم، ولا تتم إعادة بيع الأكواد، أو مشاركتها، أو استغلال الاستراتيجية تجارياً مع أي طرف ثالث.
                     </p>
                   </div>
                 </div>
@@ -1845,7 +1804,7 @@
                 </p>
                 <div class="mt-8 rounded-3xl border border-frost/20 bg-frost/10 p-5">
                   <p class="text-sm font-bold text-white/48" data-contact-email-label>البريد المهني</p>
-                  <a class="mt-1 inline-block text-xl font-black text-ice" href="mailto:admin@yahyazlab.com" onclick="return gtag_report_conversion('mailto:admin@yahyazlab.com');" data-contact-email>
+                  <a class="mt-1 inline-block text-xl font-black text-ice" href="mailto:admin@yahyazlab.com" onclick="gtag_report_conversion();" data-contact-email>
                     admin@yahyazlab.com
                   </a>
                   <p class="geo-status mt-4 rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3 text-xs font-black leading-6 text-white/58">
@@ -1854,7 +1813,7 @@
                 </div>
                 <div class="mt-4 rounded-3xl border border-[#25D366]/25 bg-[#25D366]/10 p-5">
                   <p class="contact-whatsapp-label text-sm font-bold text-white/48">تواصل مباشر</p>
-                  <a class="contact-whatsapp mt-3" href="https://api.whatsapp.com/send/?phone=628211323886" target="_blank" rel="noopener noreferrer" onclick="gtag_report_conversion();">
+                  <a class="contact-whatsapp mt-3" href="https://wa.me/628211323886" target="_blank" rel="noopener noreferrer" onclick="gtag_report_conversion();">
                     <span aria-hidden="true">☎</span>
                     <span class="contact-whatsapp-text">تواصل عبر الواتساب</span>
                   </a>
@@ -1879,7 +1838,7 @@
                 </label>
                 <button class="cta-primary mt-2 w-full border-0" type="submit" onclick="gtag_report_conversion();">إرسال طلب المشروع</button>
                 <p class="contact-disclosure text-center text-xs font-bold leading-6 text-white/46">
-                  Note: Through YahyazLab, I strictly provide technical coding services. I will never ask for your live trading account passwords, broker credentials, or personal financial details. Your project ideas are handled with 100% confidentiality according to the Privacy Policy.
+                  YahyazLab provides software development services only. I do not provide financial advice, investment recommendations, or profit guarantees. Trading involves risk, and clients are responsible for testing and using any automated tools. I will never ask for your live trading account passwords or broker credentials.
                 </p>
               </form>
             </div>
@@ -1904,7 +1863,7 @@
 
     <a
       class="whatsapp fixed bottom-5 left-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white transition hover:-translate-y-1"
-      href="https://api.whatsapp.com/send/?phone=628211323886"
+      href="https://wa.me/628211323886"
       target="_blank"
       rel="noopener noreferrer"
       onclick="gtag_report_conversion();"
@@ -1930,10 +1889,7 @@
       const currentYear = new Date().getFullYear().toString();
       const contactEmail = "admin@yahyazlab.com";
       const whatsappPhoneNumber = "628211323886";
-      const whatsappMessages = {
-        ar: "مرحباً YahyazLab، أود الاستفسار عن خدمات برمجة التداول والأتمتة.",
-        en: "Hello YahyazLab, I would like to inquire about your trading automation and development services.",
-      };
+      const whatsappUrl = `https://wa.me/${whatsappPhoneNumber}`;
       const languageStorageKey = "yahyazlab-language";
       const yearElement = document.getElementById("year");
       if (yearElement) yearElement.textContent = currentYear;
@@ -1983,7 +1939,7 @@
           aboutText:
             "لستُ مجرد كاتب أكواد تقليدي، بل أنا مطور برمجيات متخصص في هندسة وأتمتة استراتيجيات التداول. بخبرة تقنية ترتكز على فهم آليات الأسواق وصقل الخوارزميات، أدمج بين المهارة البرمجية الدقيقة وبناء الأدوات الرقمية المتقدمة. يتجاوز دوري مجرد صياغة الكود إلى تحويل منطقك التجاري الخاص واستراتيجيتك اليدوية إلى أدوات تداول آلي متينة، عالية الكفاءة، ومنفذة بدقة متناهية. ثق في خبرتي التقنية وشغفي بالبرمجة لتكون الجسر الحقيقي الذي ينقل أفكارك إلى عالم الأتمتة المستدامة.",
           aboutNotice:
-            "ملاحظة هامة: YahyazLab هي العلامة المهنية لمطور برمجيات مستقل وعامل حر. أنا متخصص حصرياً في البرمجة المخصصة، وتحويل المؤشرات، وخدمات الأتمتة لمنصات MetaTrader (MQL4/MQL5) و TradingView (Pine Script) بناءً على المواصفات المباشرة للعملاء. إن YahyazLab ليس وسيطاً مالياً، أو منصة تداول، أو شركة استشارات استثمارية. أنا لا أدير أموال العملاء، ولا أسهل التداول الحي، ولا أقدم نصائح استثمارية.",
+            "ملاحظة مهمة: تقدم YahyazLab خدمات تطوير برمجيات فقط. أنا لا أقدم نصائح مالية، أو توصيات استثمارية، أو ضمانات أرباح. التداول ينطوي على مخاطر، والعملاء مسؤولون عن اختبار واستخدام أي أدوات تداول آلية. YahyazLab ليست وسيطاً مالياً، أو منصة تداول، أو شركة استشارات استثمارية.",
           portfolioKicker: "نماذج بصرية",
           portfolioTitle: "أمثلة على أعمالي",
           portfolioTitles: [
@@ -2071,8 +2027,8 @@
               body: 'الكود المصدري المفتوح (Source Code) والنسخة الدائمة غير المحدودة هي ملك حصري لـ YahyazLab خلال فترة التطوير والاختبار، ويتم نقل كامل صلاحيات الملكية البرمجية للعميل فور إتمام تحويل المبلغ المتفق عليه كاملاً بعملة الـ <span dir="ltr" class="inline-block">USDT</span>.',
             },
             {
-              title: "🔒 5. سرية الاستراتيجيات وضمان عدم البيع (NDA)",
-              body: "ألتزم في YahyazLab بالسرية المطلقة تجاه تفاصيل منطق التداول (Trading Logic) الخاص بالعميل. الأداة أو البوت المطور يُعد ملكاً فكرياً وحصرياً لصاحبه فقط، وأضمن بشكل قاطع عدم إعادة بيع الأكواد، أو مشاركتها، أو استغلال الاستراتيجية تجارياً مع أي طرف ثالث تحت أي ظرف من الظروف.",
+              title: "🔒 5. سرية الاستراتيجيات وعدم مشاركة الأكواد (NDA)",
+              body: "ألتزم في YahyazLab بالسرية تجاه تفاصيل منطق التداول (Trading Logic) الخاص بالعميل. الأداة أو البوت المطور يُعد ملكاً فكرياً لصاحبه بعد اكتمال شروط التسليم، ولا تتم إعادة بيع الأكواد، أو مشاركتها، أو استغلال الاستراتيجية تجارياً مع أي طرف ثالث.",
             },
           ],
           contactKicker: "ابدأ المشروع",
@@ -2090,7 +2046,7 @@
           ],
           submit: "إرسال طلب المشروع",
           contactDisclosure:
-            "ملاحظة: من خلال YahyazLab أقدم خدمات البرمجة التقنية بحتة. لن أطلب منك أبداً كلمات مرور حسابات التداول الحية، أو بيانات اعتماد الوسيط، أو التفاصيل المالية الشخصية. يتم التعامل مع أفكار مشاريعك بسرية تامة بنسبة 100٪ وفقاً لسياسة الخصوصية.",
+            "ملاحظة: تقدم YahyazLab خدمات تطوير برمجيات فقط. أنا لا أقدم نصائح مالية، أو توصيات استثمارية، أو ضمانات أرباح. التداول ينطوي على مخاطر، والعملاء مسؤولون عن اختبار واستخدام أي أدوات تداول آلية. لن أطلب منك كلمات مرور حسابات التداول الحية أو بيانات اعتماد الوسيط.",
           footer: ["© 2026 YahyazLab. All rights reserved.", "ميتاتريدر ٤ · ميتاتريدر ٥ · تريدنغ فيو · باين سكريبت"],
           footerLinks: ["سياسة الخصوصية", "شروط الخدمة", "إخلاء مسؤولية المخاطر"],
           whatsapp: "تواصل عبر واتساب",
@@ -2141,7 +2097,7 @@
           aboutText:
             "I am not a traditional code writer; I am a software developer specialized in engineering and automating trading strategies. With technical expertise grounded in market mechanics and algorithm refinement, I combine precise software craftsmanship with advanced digital tool development. My role goes beyond writing code: I transform your proprietary trading logic and manual strategy into robust, efficient, and precisely executed automation tools. Trust my technical expertise and passion for programming to be the bridge that moves your ideas into sustainable automation.",
           aboutNotice:
-            "Important Notice: YahyazLab is the professional brand of an independent freelance software developer. I specialize strictly in custom programming, indicator conversion, and automation services for MetaTrader (MQL4/MQL5) and TradingView (Pine Script) based on direct customer specifications. YahyazLab is not a financial broker, trading platform, or investment advisory firm. I do not manage client funds, facilitate live trading, or provide investment advice.",
+            "YahyazLab provides software development services only. I do not provide financial advice, investment recommendations, or profit guarantees. Trading involves risk, and clients are responsible for testing and using any automated tools. YahyazLab is not a financial broker, trading platform, or investment advisory firm.",
           portfolioKicker: "Visual Examples",
           portfolioTitle: "Examples of My Work",
           portfolioTitles: [
@@ -2230,7 +2186,7 @@
             },
             {
               title: "🔒 5. Strategy Confidentiality & Non-Disclosure (NDA)",
-              body: "At YahyazLab, I strictly commit to absolute non-disclosure regarding the client's proprietary trading logic. The developed tool or bot is considered the exclusive intellectual property of its owner, and I guarantee unconditionally that the code will never be resold, shared, or commercially exploited with any third party under any circumstances.",
+              body: "At YahyazLab, I treat the client's proprietary trading logic as confidential. After the agreed delivery terms are completed, the developed tool or bot belongs to its owner, and the code is not resold, shared, or commercially exploited with any third party.",
             },
           ],
           contactKicker: "Start the Project",
@@ -2248,7 +2204,7 @@
           ],
           submit: "Submit Project Request",
           contactDisclosure:
-            "Note: Through YahyazLab, I strictly provide technical coding services. I will never ask for your live trading account passwords, broker credentials, or personal financial details. Your project ideas are handled with 100% confidentiality according to the Privacy Policy.",
+            "YahyazLab provides software development services only. I do not provide financial advice, investment recommendations, or profit guarantees. Trading involves risk, and clients are responsible for testing and using any automated tools. I will never ask for your live trading account passwords or broker credentials.",
           footer: ["© 2026 YahyazLab. All rights reserved.", "MetaTrader 4 · MetaTrader 5 · TradingView · Pine Script"],
           footerLinks: ["Privacy Policy", "Terms of Service", "Risk Disclaimer"],
           whatsapp: "Contact via WhatsApp",
@@ -2282,16 +2238,9 @@
         document.querySelector(selector)?.setAttribute("content", value);
       }
 
-      function getWhatsAppUrl(language = document.documentElement.lang) {
-        const normalizedLanguage = language === "ar" ? "ar" : "en";
-        const activeMessage = whatsappMessages[normalizedLanguage] || whatsappMessages.en;
-        return `https://api.whatsapp.com/send/?phone=${whatsappPhoneNumber}&text=${encodeURIComponent(activeMessage)}`;
-      }
-
-      function normalizeWhatsAppLinks(language = document.documentElement.lang) {
-        const localizedWhatsappUrl = getWhatsAppUrl(language);
-        document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com/send"], .whatsapp, .contact-whatsapp, .hero-primary-cta').forEach((link) => {
-          link.setAttribute("href", localizedWhatsappUrl);
+      function normalizeWhatsAppLinks() {
+        document.querySelectorAll('a[href*="wa.me"], .whatsapp, .contact-whatsapp, .hero-primary-cta').forEach((link) => {
+          link.setAttribute("href", whatsappUrl);
           link.setAttribute("target", "_blank");
           link.setAttribute("rel", "noopener noreferrer");
           link.setAttribute("onclick", "gtag_report_conversion();");
@@ -2327,7 +2276,6 @@
 
       function applyLanguage(language) {
         const t = translations[language] || translations.ar;
-        const whatsappUrl = getWhatsAppUrl(t.lang);
         localStorage.setItem(languageStorageKey, t.lang);
         localStorage.setItem("selectedLanguage", t.lang);
         document.documentElement.lang = t.lang;
@@ -2469,7 +2417,7 @@
         contactWhatsapp?.setAttribute("href", whatsappUrl);
         contactWhatsapp?.setAttribute("target", "_blank");
         contactWhatsapp?.setAttribute("rel", "noopener noreferrer");
-        normalizeWhatsAppLinks(t.lang);
+        normalizeWhatsAppLinks();
         lightboxTitle.textContent = t.lightboxTitle;
         closeLightboxButton.setAttribute("aria-label", t.closeLightbox);
       }
